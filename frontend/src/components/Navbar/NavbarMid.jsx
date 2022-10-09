@@ -8,7 +8,7 @@ const NavMidStyles = styled.div`
     height: 6rem;
 
     .navMid{
-        width: 65%;
+        width: 1230px;
         height: 100%;
         margin: 2rem auto;
         display: flex;
@@ -119,6 +119,11 @@ const NavMidStyles = styled.div`
                 }
             }
             
+        }
+    }
+    @media (max-width: 1380px){
+        .navMid{
+            width: 980px;
         }
     }
 `

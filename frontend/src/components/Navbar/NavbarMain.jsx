@@ -5,10 +5,10 @@ import homeicon from '../../assets/imgs/home.svg'
 const NavMainStyles = styled.div`
     width: 100vw;
     height: 4.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 
     .navMain{
-        width: 65%;
+        width: 1230px;
         height: 100%;
         margin: 2rem auto;
         background-color: #FFF;
@@ -24,8 +24,8 @@ const NavMainStyles = styled.div`
                 width: 4.5rem;
             }
             li{
-                font-size: 1.3rem;
-                font-weight: 700;
+                font-size: 1.25rem;
+                font-weight: 600;
                 color: #000000;
                 display: flex;
                 justify-content: center;
@@ -42,41 +42,40 @@ const NavMainStyles = styled.div`
                 img{
                     height: 1.5rem;
                     width: 1.5rem;
-                    color: black;
+                    color: #000000ec;
                 }
             }
         }
     }
-    .scrolled{
-        position: sticky;
-        top: 0;
+    @media (max-width: 1380px){
+        .navMain{
+            width: 980px;
+        }
     }
 `
 
 function NavbarMain() {
 
+    let navClasses = []
     const [scrolled, setScrolled] = useState(false);
     const handleScroll = () => {
-        const offset = window.scrollY;
-        if (offset > 200) {
-            setScrolled(true);
-        }
-        else if (offset < 200) {
-            setScrolled(false);
-        }
-    }
+        window.scrollY >= 200 ? setScrolled(true) : setScrolled(false);
 
+    }
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll)
-    })
-    let navClasses = ['navMain']
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
     if (scrolled) {
         console.log(1);
         navClasses.push('scrolled')
     }
     return (
-        <NavMainStyles style={scrolled ? { backgroundColor: '#FFF', position: 'sticky', top: 0, } : {}}>
-            <div className="navMain" style={scrolled ? { boxShadow: 'none' } : {}} >
+        <NavMainStyles style={scrolled ? { backgroundColor: '#FFF', position: 'fixed', top: 0, margin: '0 auto' } : {}}>
+            <div className="navMain" style={scrolled ? { boxShadow: 'none', margin: '0 auto' } : {}} >
                 <ul>
                     <li><img src={homeicon} alt="" /></li>
                     <li>CATEGORIES</li>
@@ -84,6 +83,7 @@ function NavbarMain() {
                     <li>ABOUT US</li>
                     <li>BLOG</li>
                     <li>CONTACT US</li>
+                    <li><i className="fa-solid fa-xmark"></i></li>
                 </ul>
             </div>
         </NavMainStyles >

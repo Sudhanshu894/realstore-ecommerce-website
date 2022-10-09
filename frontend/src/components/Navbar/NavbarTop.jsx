@@ -12,7 +12,7 @@ const NavTopStyles = styled.div`
     
 
     .navTop {
-        width: 65%;
+        width: 1230px;
         height: 100%;
         margin: 0 auto;
         display: flex;
@@ -70,13 +70,20 @@ const NavTopStyles = styled.div`
             }
         }
     }
+
+
+    @media (max-width: 1380px){
+        .navTop{
+            width: 980px;
+        }
+    }
 `
 
 
-function NavbarTop() {
+function NavbarTop({ isMobile }) {
     return (
-        <NavTopStyles>
-            <div className='navTop'>
+        <NavTopStyles style={{ backgroundColor: isMobile ? '#f7f7f7' : '' }}>
+            <div className='navTop' style={{ width: isMobile ? "80%" : '' }}>
                 <div className='nTop-1'>
                     <p><a href="#">$ USD</a></p>
                     <p> <span>Call us: </span> +91 4320 423 214 </p>
@@ -84,8 +91,8 @@ function NavbarTop() {
                 <div className='nTop-2'>
                     <ul>
                         <li><a href="#">Contact us</a></li>
-                        <li>Sign out</li>
-                        <li>Sidhart Sharma</li>
+                        {!isMobile && <><li>Sign out</li>
+                            <li>Sidhart Sharma</li></>}
                     </ul>
                 </div>
             </div>
