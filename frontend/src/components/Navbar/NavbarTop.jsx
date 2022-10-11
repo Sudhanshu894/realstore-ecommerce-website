@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 const NavTopStyles = styled.div`
-
     width: 100vw;
     height: 4rem;
     display: flex;
@@ -82,7 +81,7 @@ const NavTopStyles = styled.div`
 
 function NavbarTop({ isMobile }) {
     return (
-        <NavTopStyles style={{ backgroundColor: isMobile ? '#f7f7f7' : '' }}>
+        <NavTopStyles style={isMobile ? { backgroundColor: '#f7f7f7', marginTop: '4rem' } : {}}>
             <div className='navTop' style={{ width: isMobile ? "80%" : '' }}>
                 <div className='nTop-1'>
                     <p><a href="#">$ USD</a></p>

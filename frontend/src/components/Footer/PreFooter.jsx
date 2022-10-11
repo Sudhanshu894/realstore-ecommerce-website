@@ -15,6 +15,7 @@ const SliderStyles = styled.div`
         place-items: center;
         position: relative;
         overflow: hidden;
+        z-index: 1;
 
         .slide-wrapper{
             display: flex;
@@ -95,8 +96,8 @@ function PreFooter() {
         <SliderStyles>
             <div className='slider'>
                 <div className="slide-wrapper">
-                    {data.map((el) => {
-                        return <div className='slide'>
+                    {data.map((el, i) => {
+                        return <div key={i} className='slide'>
                             <img src={el} alt='' />
                         </div>
                     })}

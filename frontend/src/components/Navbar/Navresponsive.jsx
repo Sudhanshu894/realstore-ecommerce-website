@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import NavbarTop from './NavbarTop'
 import search from '../../assets/imgs/search.svg'
-import cart from '../../assets/imgs/bag.svg'
+import carticon from '../../assets/imgs/bag.svg';
 import menu from '../../assets/imgs/menu.svg'
 import cross from '../../assets/imgs/x.svg'
 
@@ -10,14 +10,18 @@ const NavResponsiveStyles = styled.div`
     width: 100vw;
     height: 7rem;
     .rnavtop{
+        position: fixed;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 4rem;
         background-color: #FFF;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        z-index: 101;
 
         .nav-1{
-            border: 1px solid red;
             margin: 0 auto;
-            width: 80%;
+            width: 100%;
             height: 100%;
             display: grid;
             grid-template-columns: repeat(4,1fr);
@@ -30,17 +34,6 @@ const NavResponsiveStyles = styled.div`
                 width: 100%;
                 height: 100%;
                 transition: 0.2s ease-in-out;
-
-                /* &:hover{
-                    background-color: #F2F2F2;
-                } */
-            }
-            & > .rlogo{
-               display: flex;
-               justify-content: flex-start;
-               align-items: center;
-               background-color: #FFF;
-
             }
 
             .rlogo > div {
@@ -58,6 +51,10 @@ const NavResponsiveStyles = styled.div`
                 width: 2rem;
                 height: 2rem;
             }
+
+            .rmenubtn{
+                transform: rotate(180deg);
+            }
         }
     }
 `
@@ -70,16 +67,23 @@ function Navresponsive({ isMobile, setOpen, open }) {
                     <div className="rlogo">
                         <div>M</div>
                     </div>
-                    <div onClick={() => setOpen({ cart: false, search: !open.search, menu: false })} className="rsearchbtn">
-                        {open.search ? (<img src={cross} alt="" />) : (<img src={search} alt="" />)}
-
-                    </div>
-                    <div className="rcartbtn">
+                    {open.search ? (<div onClick={() => setOpen({ cart: false, search: false, menu: false })} style={{ backgroundColor: '#F2F2F2', transform: 'rotate(180deg)' }} className="rsearchbtn">
+                        <img src={cross} alt="" />
+                    </div>) : (<div onClick={() => setOpen({ cart: false, search: true, menu: false })} className="rsearchbtn">
                         <img src={search} alt="" />
-                    </div>
-                    <div className="rmenubtn">
+                    </div>)}
+
+                    {open.cart ? (<div onClick={() => setOpen({ cart: false, search: false, menu: false })} style={{ backgroundColor: '#F2F2F2', transform: 'rotate(180deg)' }} className="rsearchbtn">
+                        <img src={cross} alt="" />
+                    </div>) : (<div onClick={() => setOpen({ cart: true, search: false, menu: false })} className="rcarthbtn">
+                        <img src={carticon} alt="" />
+                    </div>)}
+
+                    {open.menu ? (<div onClick={() => setOpen({ cart: false, search: false, menu: false })} style={{ backgroundColor: '#F2F2F2' }} className="rsearchbtn">
+                        <img src={cross} alt="" />
+                    </div>) : (<div onClick={() => setOpen({ cart: false, search: false, menu: true })} className="rmenubtn">
                         <img src={menu} alt="" />
-                    </div>
+                    </div>)}
                 </div>
             </div>
             <NavbarTop isMobile={isMobile} />

@@ -5,7 +5,7 @@ const ApiFeatures = require('../utils/feature');
 
 
 // Create Products -- Admin
-exports.createProduct = AsyncErrorHandler(async (req, res, next) => {
+exports.createProduct = AsyncErrorHandler(async (req, res) => {
 
     req.body.user = req.user.id;
 
@@ -18,11 +18,11 @@ exports.createProduct = AsyncErrorHandler(async (req, res, next) => {
 
 // Get Products 
 exports.getAllProducts = AsyncErrorHandler(async (req, res, next) => {
-    const resperpage = 2;
+    const resperpage = 8;
     const totalProducts = await Product.countDocuments();
     const queryFeature = new ApiFeatures(Product.find(), req.query).search().filter().pagination(resperpage)
-    let product = await queryFeature.query;
-    return res.status(201).send({ product, totalProducts, success: true });
+    let products = await queryFeature.query;
+    return res.status(201).send({ products, totalProducts, success: true });
 });
 
 
@@ -43,6 +43,7 @@ exports.updateProducts = AsyncErrorHandler(async (req, res, next) => {
 
 // Get All products details from Id
 exports.getProductDetails = AsyncErrorHandler(async (req, res, next) => {
+
     let product = await Product.findById(req.params.id);
     if (!product) {
         return next(new ErrorHandler("Product not found", 404));

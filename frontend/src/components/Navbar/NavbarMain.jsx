@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 import homeicon from '../../assets/imgs/home.svg'
 
 const NavMainStyles = styled.div`
     width: 100vw;
     height: 4.5rem;
     margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 5;
 
     .navMain{
         width: 1230px;
@@ -55,7 +58,7 @@ const NavMainStyles = styled.div`
 `
 
 function NavbarMain() {
-
+    const navigate = useNavigate();
     let navClasses = []
     const [scrolled, setScrolled] = useState(false);
     const handleScroll = () => {
@@ -70,20 +73,19 @@ function NavbarMain() {
         };
     }, []);
     if (scrolled) {
-        console.log(1);
         navClasses.push('scrolled')
     }
     return (
         <NavMainStyles style={scrolled ? { backgroundColor: '#FFF', position: 'fixed', top: 0, margin: '0 auto' } : {}}>
             <div className="navMain" style={scrolled ? { boxShadow: 'none', margin: '0 auto' } : {}} >
                 <ul>
-                    <li><img src={homeicon} alt="" /></li>
-                    <li>CATEGORIES</li>
-                    <li>CONTENT</li>
+                    <li onClick={() => {
+                        navigate('/');
+                    }}><img src={homeicon} alt="" /></li>
+                    <li>HOME</li>
+                    <li>PRODUCT</li>
                     <li>ABOUT US</li>
-                    <li>BLOG</li>
                     <li>CONTACT US</li>
-                    <li><i className="fa-solid fa-xmark"></i></li>
                 </ul>
             </div>
         </NavMainStyles >
