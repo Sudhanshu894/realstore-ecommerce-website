@@ -43,7 +43,7 @@ const ProductContainerStyles = styled.div`
     }
 `
 
-function ProductContainer({ title, products }) {
+function ProductContainer({ title, products, elem }) {
 
     return (
         <ProductContainerStyles>

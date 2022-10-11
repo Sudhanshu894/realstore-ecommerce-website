@@ -18,11 +18,13 @@ exports.createProduct = AsyncErrorHandler(async (req, res) => {
 
 // Get Products 
 exports.getAllProducts = AsyncErrorHandler(async (req, res, next) => {
-    const resperpage = 8;
-    const totalProducts = await Product.countDocuments();
-    const queryFeature = new ApiFeatures(Product.find(), req.query).search().filter().pagination(resperpage)
+    const resultPerPage = 6;
+    const product = new ApiFeatures(Product.find(), req.query).search().filter();
+    const temp = await product.query;
+    const totalProducts = temp.length;
+    const queryFeature = new ApiFeatures(Product.find(), req.query).search().filter().pagination(resultPerPage)
     let products = await queryFeature.query;
-    return res.status(201).send({ products, totalProducts, success: true });
+    return res.status(201).send({ products, totalProducts, resultPerPage, success: true });
 });
 
 

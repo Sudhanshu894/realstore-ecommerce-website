@@ -32,11 +32,15 @@ import {
 } from "./Actiontypes";
 
 // Get All Products
-export const getProduct = () => async (dispatch) => {
+export const getProduct = (keyword = "", currPage = 1, price = [0, 5000], rating = 0, category) => async (dispatch) => {
     try {
         dispatch({ type: ALL_PRODUCT_REQUEST });
 
-        let link = `http://localhost:8080/api/product`;
+        let link = `http://localhost:8080/api/product?keyword${keyword !== "" && `=${keyword}`}&page=${currPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${rating}`;
+
+        if (category) {
+            link = `http://localhost:8080/api/product?keyword${keyword !== "" && `=${keyword}`}&page=${currPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${rating}`
+        }
         const { data } = await axios.get(link);
 
         dispatch({

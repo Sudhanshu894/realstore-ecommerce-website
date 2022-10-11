@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import homeicon from '../../assets/imgs/home.svg'
 
 const NavMainStyles = styled.div`
@@ -26,7 +26,7 @@ const NavMainStyles = styled.div`
                 height: 4.5rem;
                 width: 4.5rem;
             }
-            li{
+            li > a{
                 font-size: 1.25rem;
                 font-weight: 600;
                 color: #000000;
@@ -79,13 +79,11 @@ function NavbarMain() {
         <NavMainStyles style={scrolled ? { backgroundColor: '#FFF', position: 'fixed', top: 0, margin: '0 auto' } : {}}>
             <div className="navMain" style={scrolled ? { boxShadow: 'none', margin: '0 auto' } : {}} >
                 <ul>
-                    <li onClick={() => {
-                        navigate('/');
-                    }}><img src={homeicon} alt="" /></li>
-                    <li>HOME</li>
-                    <li>PRODUCT</li>
-                    <li>ABOUT US</li>
-                    <li>CONTACT US</li>
+                    <li><Link to='/'><img src={homeicon} alt="" /></Link></li>
+                    <li><Link to='/'>HOME</Link></li>
+                    <li><Link to='/products'>PRODUCT</Link></li>
+                    <li><Link to='/about'>ABOUT US</Link></li>
+                    <li><Link to='/contact'>CONTACT US</Link></li>
                 </ul>
             </div>
         </NavMainStyles >

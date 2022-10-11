@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import searchicon from '../../assets/imgs/search.svg';
 import carticon from '../../assets/imgs/bag.svg';
+import { useNavigate } from 'react-router-dom';
 
 const NavMidStyles = styled.div`
     width: 100vw;
@@ -129,6 +130,21 @@ const NavMidStyles = styled.div`
 `
 
 function NavbarMid() {
+    const navigate = useNavigate();
+    const [keyword, setKeyword] = useState("");
+
+    const eventHandle = () => {
+        if (keyword.trim()) {
+            navigate(`/products/${keyword}`)
+        } else {
+            navigate('/products');
+        }
+    }
+    const searchHandler = (e) => {
+        if (e.key === 'Enter') {
+            eventHandle();
+        }
+    }
     return (
         <NavMidStyles>
             <div className='navMid'>
@@ -137,8 +153,8 @@ function NavbarMid() {
                 </div>
                 <div className="search-cart-Bx">
                     <div className="search">
-                        <input type="text" placeholder='Search our catalog' />
-                        <img src={searchicon} alt="search" />
+                        <input type="text" placeholder='Search our catalog' onChange={(e) => setKeyword(e.target.value)} onKeyUp={(e) => { searchHandler(e) }} />
+                        <img src={searchicon} alt="search" onClick={eventHandle} />
                     </div>
                     <div className="cart">
                         <img src={carticon} alt="carticon" />
