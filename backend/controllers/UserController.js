@@ -3,11 +3,17 @@ const AsyncErrorHandler = require('../middleware/AsyncErrorHandler');
 const User = require('../models/UserModel');
 const SendToken = require('../utils/Token');
 const crypto = require('crypto');
+const cloudinary = require('cloudinary');
 const sendEmail = require('../utils/Email.js');
 
 
 exports.registerUser = AsyncErrorHandler(async (req, res, next) => {
 
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+        folder: "user_profiles",
+        width: 150,
+        crop: "scale"
+    })
     const { name, email, password } = req.body;
 
     const user = await User.findOne({ email: email });
@@ -20,8 +26,8 @@ exports.registerUser = AsyncErrorHandler(async (req, res, next) => {
         email,
         password,
         avatar: {
-            public_id: "this is a sample Id",
-            url: "profile_Pic_Url",
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url,
         }
     });
     const token = cruser.getJwtToken();
@@ -81,9 +87,8 @@ exports.forgetUserPassword = AsyncErrorHandler(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
 
 
-    const forgetPassUrl = `${req.protocol}://${req.get("host")}/api/password/reset/${newToken}`;
-
-    const message = `Your Password reset Link is : \n\n ${forgetPassUrl} \n\n if you have not requested to reset password then please ignore this message`;
+    const forgetPassUrl = `http://localhost:3000/api/password/reset/${newToken}`;
+    const message = `Your Password reset Link is : \n\n ${forgetPassUrl} \n\n if you have not requested to reset your password then please ignore this message`;
 
 
     try {
@@ -144,10 +149,10 @@ exports.resetPassword = AsyncErrorHandler(async (req, res, next) => {
 
 // User Details
 exports.getUserInfo = AsyncErrorHandler(async (req, res, next) => {
-    const user = await User.findById(req.params.id);
-    const userinfo = req.user;
+
+    const user = await User.findById(req.user.id);
     return res.status(200).send({
-        success: true, userinfo
+        success: true, user
     })
 })
 
@@ -184,10 +189,26 @@ exports.updateProfile = AsyncErrorHandler(async (req, res, next) => {
         email: req.body.email,
     };
 
-    const user = await User.findByIdAndUpdate(req.user.id, data, {
-        new: true,
-        runValidators: true,
-    });
+    if (req.body.avatar !== undefined) {
+        const user = await User.findById(req.user.id);
+
+        const imgid = user.avatar.public_id;
+        await cloudinary.v2.uploader.destroy(imgid);
+
+        const Cloud_data = await cloudinary.v2.uploader.upload(req.body.avatar, {
+            folder: "user_profiles",
+            width: 150,
+            crop: "scale",
+        });
+
+        data.avatar = {
+            public_id: Cloud_data.public_id,
+            url: Cloud_data.secure_url,
+        }
+    }
+
+    const user = await User.findByIdAndUpdate(req.user.id, data, { new: true, runValidators: true })
+
 
     return res.status(200).send({ success: true });
 })

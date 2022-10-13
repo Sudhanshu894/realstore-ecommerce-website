@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 const NavTopStyles = styled.div`
@@ -60,6 +61,7 @@ const NavTopStyles = styled.div`
                     font-family: 'Poppins', sans-serif;
                     color: #424242;
                     font-weight: 450;
+                    cursor: pointer;
                 }
                 li > a{
                     font-family: 'Poppins', sans-serif;
@@ -79,7 +81,9 @@ const NavTopStyles = styled.div`
 `
 
 
-function NavbarTop({ isMobile }) {
+function NavbarTop({ isMobile, isAuth, user, HandleLogout }) {
+
+    const navigate = useNavigate();
     return (
         <NavTopStyles style={isMobile ? { backgroundColor: '#f7f7f7', marginTop: '4rem' } : {}}>
             <div className='navTop' style={{ width: isMobile ? "80%" : '' }}>
@@ -90,8 +94,8 @@ function NavbarTop({ isMobile }) {
                 <div className='nTop-2'>
                     <ul>
                         <li><a href="#">Contact us</a></li>
-                        {!isMobile && <><li>Sign out</li>
-                            <li>Sidhart Sharma</li></>}
+                        {isAuth && <><li onClick={HandleLogout}>Sign out</li>
+                            <li onClick={() => { navigate('/account') }}>{user?.name[0].toUpperCase() + user.name.split("").splice(1, user.name.length - 1).join("")}</li></>}
                     </ul>
                 </div>
             </div>

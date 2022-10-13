@@ -36,10 +36,10 @@ export const getProduct = (keyword = "", currPage = 1, price = [0, 5000], rating
     try {
         dispatch({ type: ALL_PRODUCT_REQUEST });
 
-        let link = `http://localhost:8080/api/product?keyword${keyword !== "" && `=${keyword}`}&page=${currPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${rating}`;
+        let link = `/api/product?keyword${keyword !== "" && `=${keyword}`}&page=${currPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${rating}`;
 
         if (category) {
-            link = `http://localhost:8080/api/product?keyword${keyword !== "" && `=${keyword}`}&page=${currPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${rating}`
+            link = `/api/product?keyword${keyword !== "" && `=${keyword}`}&page=${currPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${rating}`
         }
         const { data } = await axios.get(link);
 
@@ -50,7 +50,7 @@ export const getProduct = (keyword = "", currPage = 1, price = [0, 5000], rating
     } catch (error) {
         dispatch({
             type: ALL_PRODUCT_FAIL,
-            payload: error.message,
+            payload: error.response.data.error,
         });
     }
 };
@@ -60,7 +60,7 @@ export const getProductDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
-        let link = `http://localhost:8080/api/product/${id}`;
+        let link = `/api/product/${id}`;
         const { data } = await axios.get(link);
 
         dispatch({
@@ -70,7 +70,7 @@ export const getProductDetails = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: PRODUCT_DETAILS_FAIL,
-            payload: error.message,
+            payload: error.response.data.error,
         });
     }
 };

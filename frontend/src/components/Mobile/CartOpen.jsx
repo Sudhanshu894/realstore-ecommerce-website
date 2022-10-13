@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import carticon from '../../assets/imgs/bag.svg'
 
@@ -56,17 +57,22 @@ const OpenCartStyles = styled.div`
         }
     }
 `
-function CartOpen() {
+function CartOpen({ isAuth }) {
+    const navigate = useNavigate();
     return (
         <OpenCartStyles>
             <div className='copen'>
                 <h3>SHOPPING CART</h3>
-
+                {!isAuth && <p style={{ textAlign: 'center', paddingBottom: '1rem', color: 'tomato', fontWeight: 500, fontFamily: 'Poppins,sans-serif' }}>Please <span style={{ cursor: 'pointer', fontWeight: 'bold', fontFamily: 'Poppins,sans-serif' }} onClick={() => {
+                    navigate('/login');
+                }}>login</span> to use Cart</p>}
                 <div className="cartitems">
                     <p>Cart is empty</p>
                     <img style={{ opacity: 0.2 }} src={carticon} alt="" />
                 </div>
-                <button disabled={true}>CONTINUE SHOPPING</button>
+                <button onClick={() => {
+                    navigate('/products')
+                }} disabled={!isAuth}>CONTINUE SHOPPING</button>
             </div>
         </OpenCartStyles>
     )

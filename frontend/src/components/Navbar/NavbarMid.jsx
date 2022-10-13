@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import searchicon from '../../assets/imgs/search.svg';
 import carticon from '../../assets/imgs/bag.svg';
+import usericon from '../../assets/imgs/user.svg';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const NavMidStyles = styled.div`
     width: 100vw;
@@ -93,7 +95,7 @@ const NavMidStyles = styled.div`
                 }
             }
 
-            .cart{
+            .cart,.profile{
                 width: 160px;
                 height: 4.2rem;
                 display: flex;
@@ -111,12 +113,19 @@ const NavMidStyles = styled.div`
                         box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
                 }
                 img{
-                    width: 2rem;
-                    height: 2rem;
+                    width: 1.8rem;
+                    height: 1.8rem;
                 }
                 p{
-                    font-size: 1.4rem;
+                    font-size: 1.3rem;
                     font-weight: bold;
+                }
+            }
+            .profile{
+                width: 120px;
+                img{
+                    width: 2rem;
+                    height: 2rem;
                 }
             }
             
@@ -129,10 +138,9 @@ const NavMidStyles = styled.div`
     }
 `
 
-function NavbarMid() {
+function NavbarMid({ isAuth, user }) {
     const navigate = useNavigate();
     const [keyword, setKeyword] = useState("");
-
     const eventHandle = () => {
         if (keyword.trim()) {
             navigate(`/products/${keyword}`)
@@ -148,7 +156,7 @@ function NavbarMid() {
     return (
         <NavMidStyles>
             <div className='navMid'>
-                <div className='logo'>
+                <div className='logo' onClick={() => { navigate('/') }}>
                     <p>R</p><p>ST0RE</p>
                 </div>
                 <div className="search-cart-Bx">
@@ -160,6 +168,11 @@ function NavbarMid() {
                         <img src={carticon} alt="carticon" />
                         <p>CART</p>
                     </div>
+                    {isAuth && <div onClick={() => {
+                        navigate('/login')
+                    }} className="profile">
+                        <img src={user.avatar.url !== "profile_Pic_Url" ? user.avatar.url : usericon} alt="usericon" />
+                    </div>}
                 </div>
             </div>
         </NavMidStyles>

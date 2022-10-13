@@ -5,6 +5,7 @@ import search from '../../assets/imgs/search.svg'
 import carticon from '../../assets/imgs/bag.svg';
 import menu from '../../assets/imgs/menu.svg'
 import cross from '../../assets/imgs/x.svg'
+import { useNavigate } from 'react-router-dom';
 
 const NavResponsiveStyles = styled.div`
     width: 100vw;
@@ -45,6 +46,7 @@ const NavResponsiveStyles = styled.div`
                 color: white;
                 font-size: 1.5rem;
                 border-radius: 20px;
+                cursor: pointer;
             }
 
             & > div >img{
@@ -60,11 +62,12 @@ const NavResponsiveStyles = styled.div`
 `
 
 function Navresponsive({ isMobile, setOpen, open }) {
+    const navigate = useNavigate();
     return (
         <NavResponsiveStyles>
             <div className="rnavtop">
                 <div className="nav-1">
-                    <div className="rlogo">
+                    <div className="rlogo" onClick={() => { navigate('/') }}>
                         <div>M</div>
                     </div>
                     {open.search ? (<div onClick={() => setOpen({ cart: false, search: false, menu: false })} style={{ backgroundColor: '#F2F2F2', transform: 'rotate(180deg)' }} className="rsearchbtn">

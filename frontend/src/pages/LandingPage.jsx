@@ -1,42 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import PreFooter from '../components/Footer/PreFooter'
-import Footer from '../components/Footer/Footer'
-import Header from '../components/Header/Header'
-import SearchOpen from '../components/Mobile/SearchOpen'
-import CartOpen from '../components/Mobile/CartOpen'
-import MenuOpen from '../components/Mobile/MenuOpen'
 import ProductContainer from '../components/Products/ProductContainer'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProduct } from '../redux/ProductRed/Action'
 import Loader from '../utils/Loader'
 import { useAlert } from 'react-alert'
-
-const PageStyles = styled.div`
-    width: 100vw;
-    height: 100vh;
-    .slide-open{
-        position: fixed;
-        top: 4rem;
-        right: -700px;
-        height: 100%;
-        width: 450px;
-        display: flex;
-        justify-content: center;
-        padding: 2rem;
-        background-color: #FFF;
-        transition: 0.5s ease-in-out;
-        z-index: 100;
-
-    }
-
-
-    @media (max-width: 767px){
-        .slide-open{
-            width: 100vw;
-        }
-    }
-`
 
 const MainContainerStyles = styled.div`
     width: 100vw;
@@ -178,18 +146,11 @@ const MainContainerStyles = styled.div`
     }
 
 `
-function LandingPage(props) {
+function LandingPage() {
     const alert = useAlert();
-    const [open, setOpen] = useState({ cart: false, search: false, menu: false });
-    const [isMobile, setIsMobile] = useState(window.matchMedia('(max-width: 990px)').matches);
     const dispatch = useDispatch();
     const { loading, error, products, productsCount } = useSelector(state => state.products);
 
-    useEffect(() => {
-        window.addEventListener('resize', () => {
-            setIsMobile(window.matchMedia('(max-width: 990px)').matches);
-        })
-    }, []);
     useEffect(() => {
         if (error) {
             return alert.error(error)
@@ -199,15 +160,7 @@ function LandingPage(props) {
 
 
     return (
-        <PageStyles>
-
-            <Header open={open} setOpen={setOpen} isMobile={isMobile} />
-
-            {isMobile && <div className='slide-open' style={{ right: open.search && '0px' || open.cart && '0px' || open.menu && '0px' }} >
-                {open.search && <SearchOpen />}
-                {open.cart && <CartOpen />}
-                {open.menu && <MenuOpen />}
-            </div>}
+        <>
             {loading ? (<Loader />) : (<MainContainerStyles style={{ perspective: '20px' }}>
                 <div className="home-header">
                     <img src="http://roythemes.com/demo/modez/_ori/modules/revsliderprestashop/uploads/slider1_bg_2.jpg" alt="" />
@@ -230,11 +183,7 @@ function LandingPage(props) {
                 <ProductContainer title={"POPULAR PRODUCTS"} products={products} />
                 <ProductContainer title={"BESTSELLER PRODUCTS"} products={products} />
             </MainContainerStyles>)}
-
-
-            <PreFooter />
-            <Footer />
-        </PageStyles>
+        </>
     )
 }
 
