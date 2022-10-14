@@ -94,8 +94,8 @@ function NavbarTop({ isMobile, isAuth, user, HandleLogout }) {
                 <div className='nTop-2'>
                     <ul>
                         <li><a href="#">Contact us</a></li>
-                        {isAuth && <><li onClick={HandleLogout}>Sign out</li>
-                            <li onClick={() => { navigate('/account') }}>{user?.name[0].toUpperCase() + user.name.split("").splice(1, user.name.length - 1).join("")}</li></>}
+                        {isAuth ? <><li onClick={HandleLogout}>Sign out</li>
+                            <li onClick={() => { navigate('/account') }}>{user?.name[0].toUpperCase() + user.name.split("").splice(1, user.name.length - 1).join("")}</li></> : <li onClick={() => { navigate('/login') }}>Signin</li>}
                     </ul>
                 </div>
             </div>

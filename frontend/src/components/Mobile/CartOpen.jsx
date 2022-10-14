@@ -1,7 +1,9 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import carticon from '../../assets/imgs/bag.svg'
+import CartItem from '../Cart/CartItem';
 
 const OpenCartStyles = styled.div`
      width: 100%;
@@ -12,7 +14,7 @@ const OpenCartStyles = styled.div`
         display: flex;
         flex-direction: column;
         margin: 2rem auto;
-
+        
         h3{
             font-size: 1.45rem;
             text-align: center;
@@ -39,8 +41,14 @@ const OpenCartStyles = styled.div`
                 margin: 0 auto;
             }
         }
+        .mcartopen{
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
         button{
             width: 70%;
+            max-width: 300px;
             height: 3.5rem;
             align-self: center;
             color: #FFF;
@@ -50,6 +58,7 @@ const OpenCartStyles = styled.div`
             font-weight: 600;
             border: none;
             border-radius: 5px;
+            margin-top: 3rem;
 
             &:disabled{
                 opacity: 0.7;
@@ -59,6 +68,8 @@ const OpenCartStyles = styled.div`
 `
 function CartOpen({ isAuth }) {
     const navigate = useNavigate();
+
+    const { cartItems } = useSelector(state => state.cart);
     return (
         <OpenCartStyles>
             <div className='copen'>
@@ -66,10 +77,14 @@ function CartOpen({ isAuth }) {
                 {!isAuth && <p style={{ textAlign: 'center', paddingBottom: '1rem', color: 'tomato', fontWeight: 500, fontFamily: 'Poppins,sans-serif' }}>Please <span style={{ cursor: 'pointer', fontWeight: 'bold', fontFamily: 'Poppins,sans-serif' }} onClick={() => {
                     navigate('/login');
                 }}>login</span> to use Cart</p>}
-                <div className="cartitems">
+                {cartItems?.length > 0 ? (<div className='mcartopen'>
+                    {cartItems.map((item) => {
+                        return <CartItem item={item} need={true} />
+                    })}
+                </div>) : (<div className="cartitems">
                     <p>Cart is empty</p>
                     <img style={{ opacity: 0.2 }} src={carticon} alt="" />
-                </div>
+                </div>)}
                 <button onClick={() => {
                     navigate('/products')
                 }} disabled={!isAuth}>CONTINUE SHOPPING</button>

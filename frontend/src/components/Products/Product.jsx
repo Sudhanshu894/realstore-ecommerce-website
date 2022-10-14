@@ -48,7 +48,7 @@ const ProductStyles = styled.div`
         }
 `
 
-function Product({ product }) {
+function Product({ product, button }) {
     const navigate = useNavigate();
     const options = {
         value: product.ratings,
@@ -63,7 +63,7 @@ function Product({ product }) {
             <div className="content">
                 <p>{product.name}</p>
                 <h3>₹{product.price}</h3>
-                <button>ADD TO CART</button>
+                <button>{button}</button>
                 <Rating {...options} />
             </div>
         </ProductStyles>

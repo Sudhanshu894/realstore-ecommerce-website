@@ -22,6 +22,13 @@ import ProfileUpdate from './components/User/ProfileUpdate';
 import PasswordUpdate from './components/User/PasswordUpdate';
 import ForgotPassword from './components/User/ForgetPassword';
 import ResetPassword from './components/User/ResetPassword';
+import CartPage from './pages/CartPage.jsx';
+import CheckoutPage from './pages/CheckoutPage';
+import ConfirmOrder from './components/Cart/ConfirmOrder';
+import Payment from './components/Cart/Payment';
+import axios from 'axios';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 
 const PageStyles = styled.div`
@@ -55,13 +62,19 @@ function App() {
   const [open, setOpen] = useState({ cart: false, search: false, menu: false });
   const [isMobile, setIsMobile] = useState(window.matchMedia('(max-width: 990px)').matches);
   const { isAuthenticated, user } = useSelector(state => state.user);
+
+  const [stripeapikey, setStripeapikey] = useState("");
+  const getStriptkey = async () => {
+    const { data } = await axios.get(`/api/stripeapikey`);
+    setStripeapikey(data.stripekey);
+  }
   useEffect(() => {
     window.addEventListener('resize', () => {
       setIsMobile(window.matchMedia('(max-width: 990px)').matches);
     })
-  }, []);
-  useEffect(() => {
     store.dispatch(Loaduser());
+    getStriptkey();
+
   }, []);
 
   const HandleLogout = () => {
@@ -71,6 +84,8 @@ function App() {
   return (
     <Router>
       <GlobalStyles />
+
+
       <PageStyles>
 
         <Header open={open} setOpen={setOpen} isMobile={isMobile} isAuth={isAuthenticated} user={user} HandleLogout={HandleLogout} />
@@ -92,9 +107,14 @@ function App() {
           <Route path='/password/update' element={isAuthenticated && <PasswordUpdate />}></Route>
           <Route path='/password/forgot' element={<ForgotPassword />}></Route>
           <Route path='/api/password/reset/:token' element={<ResetPassword />}></Route>
+          <Route path='/cart' element={<CartPage isAuth={isAuthenticated} />}></Route>
+          <Route path='/checkout' element={isAuthenticated && <CheckoutPage />}></Route>
+          <Route path='/order/confirm' element={isAuthenticated && <ConfirmOrder />}></Route>
+          {stripeapikey && <Route path='/payment' element={isAuthenticated && <Elements stripe={loadStripe(stripeapikey)}>
+            <Payment />
+          </Elements>}></Route>}
 
         </Routes>
-
         <PreFooter />
         <Footer />
       </PageStyles>

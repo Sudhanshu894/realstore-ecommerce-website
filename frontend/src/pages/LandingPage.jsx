@@ -144,7 +144,6 @@ const MainContainerStyles = styled.div`
             grid-template-columns: 1fr;
         }
     }
-
 `
 function LandingPage() {
     const alert = useAlert();
@@ -186,5 +185,4 @@ function LandingPage() {
         </>
     )
 }
-
 export default LandingPage

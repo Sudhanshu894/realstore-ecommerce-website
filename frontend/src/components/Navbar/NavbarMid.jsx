@@ -123,9 +123,14 @@ const NavMidStyles = styled.div`
             }
             .profile{
                 width: 120px;
+                width: 4rem;
+                height: 4rem;
+                border-radius: 50%;
                 img{
-                    width: 2rem;
-                    height: 2rem;
+                    width: 3.5rem;
+                    height: 3.5rem;
+                    object-fit: cover;
+                    border-radius: 50%;
                 }
             }
             
@@ -164,7 +169,7 @@ function NavbarMid({ isAuth, user }) {
                         <input type="text" placeholder='Search our catalog' onChange={(e) => setKeyword(e.target.value)} onKeyUp={(e) => { searchHandler(e) }} />
                         <img src={searchicon} alt="search" onClick={eventHandle} />
                     </div>
-                    <div className="cart">
+                    <div onClick={() => { navigate('/cart') }} className="cart">
                         <img src={carticon} alt="carticon" />
                         <p>CART</p>
                     </div>

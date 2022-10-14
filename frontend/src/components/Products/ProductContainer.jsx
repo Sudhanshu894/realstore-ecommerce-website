@@ -50,7 +50,7 @@ function ProductContainer({ title, products, elem }) {
             <h2>{title}</h2>
             <div className="prd-grid">
                 {products && products.map((prod) => {
-                    return <Product key={prod._id} product={prod} />
+                    return <Product key={prod._id} product={prod} button={"VIEW DETAILS"} />
                 })}
             </div>
         </ProductContainerStyles>

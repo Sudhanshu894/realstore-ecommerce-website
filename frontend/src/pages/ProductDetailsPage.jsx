@@ -11,6 +11,7 @@ import { Rating } from '@material-ui/lab'
 import wrong from '../assets/imgs/wrong.svg';
 import right from '../assets/imgs/right.svg';
 import arrow from '../assets/imgs/arrow.svg';
+import { Addtocart } from '../redux/CartRed/Actions'
 
 const ProductDetailStyles = styled.div`
     width: 100vw;
@@ -202,6 +203,7 @@ function ProductDetailsPage({ isAuth }) {
     const { id } = useParams();
     const alert = useAlert();
     const dispatch = useDispatch();
+    const [quantity, setQuantity] = useState(1);
     const [open, setOpen] = useState({ cart: false, search: false, menu: false });
     const [isMobile, setIsMobile] = useState(window.matchMedia('(max-width: 990px)').matches);
     const { product, loading, error } = useSelector(state => state.productDetails);
@@ -215,9 +217,28 @@ function ProductDetailsPage({ isAuth }) {
     const AddtoCart = () => {
         if (!isAuth) {
             alert.error("Request Failed!");
-            alert.error('Please login to add product to cart');
+            return alert.error('Please login to add product to cart');
+        }
+        dispatch(Addtocart(id, quantity));
+        alert.success("Item added to cart Successfully");
+    }
+    const HandleInc = () => {
+        if (quantity === product?.stock) {
+            return;
+        }
+        if (quantity < product?.stock) {
+            setQuantity((prev) => prev + 1);
+        }
+
+    }
+    const HandleDecr = () => {
+        if (1 === quantity) return;
+        if (quantity > 1) {
+            setQuantity((prev) => prev - 1);
         }
     }
+
+
 
     useEffect(() => {
         if (error) {
@@ -260,10 +281,10 @@ function ProductDetailsPage({ isAuth }) {
                         <div className="addcartbtn">
                             <div className='acb-1'>
                                 <div className="quan">
-                                    <p>1</p>
+                                    <p>{quantity}</p>
                                     <div className='change-quan'>
-                                        <img style={{ transform: 'rotate(180deg)' }} src={arrow} alt="up" />
-                                        <img src={arrow} alt="down" />
+                                        <img onClick={HandleInc} style={{ transform: 'rotate(180deg)' }} src={arrow} alt="up" />
+                                        <img onClick={HandleDecr} src={arrow} alt="down" />
                                     </div>
                                 </div>
                                 <div className="cbtn">

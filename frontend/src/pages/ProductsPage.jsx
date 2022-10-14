@@ -361,7 +361,7 @@ function ProductsPage() {
                         <h2>PRODUCTS</h2>
                         <div className="Prod-grid">
                             {products && products.map((product) => {
-                                return <Product product={product} />
+                                return <Product product={product} button={"VIEW DETAILS"} />
                             })}
                         </div>
                     </div>
