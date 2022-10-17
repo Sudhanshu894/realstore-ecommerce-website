@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProductDetails, clearErrors } from '../redux/ProductRed/Action'
+import { getProductDetails, clearErrors, NewReview } from '../redux/ProductRed/Action'
 import { useAlert } from 'react-alert'
 import Loader from '../utils/Loader'
 import ReviewsContainer from '../components/Reviews/ReviewsContainer'
@@ -12,6 +12,8 @@ import wrong from '../assets/imgs/wrong.svg';
 import right from '../assets/imgs/right.svg';
 import arrow from '../assets/imgs/arrow.svg';
 import { Addtocart } from '../redux/CartRed/Actions'
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@material-ui/core'
+import { NEW_REVIEW_REQUEST } from '../redux/ProductRed/Actiontypes'
 
 const ProductDetailStyles = styled.div`
     width: 100vw;
@@ -40,6 +42,8 @@ const ProductDetailStyles = styled.div`
             }
         }
         .contentdiv{
+            display: flex;
+            flex-direction: column;
             background-color: #FFF;
             padding: 3rem 0 2rem 0;
             border-radius: 10px;
@@ -171,6 +175,19 @@ const ProductDetailStyles = styled.div`
                     }
                 }
             }
+            
+            .greview{
+                width: 50%;
+                font-family: 'Poppins', sans-serif;
+                font-size: 1.1rem;
+                border: none;
+                height: 3.5rem;
+                background-color: #353535;
+                color: white;
+                margin: 0 auto;
+                text-align: center;
+                margin-top: 2rem;
+            }
         }
 
     }
@@ -204,9 +221,14 @@ function ProductDetailsPage({ isAuth }) {
     const alert = useAlert();
     const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(1);
-    const [open, setOpen] = useState({ cart: false, search: false, menu: false });
     const [isMobile, setIsMobile] = useState(window.matchMedia('(max-width: 990px)').matches);
     const { product, loading, error } = useSelector(state => state.productDetails);
+
+    const { success, error: reviewError } = useSelector(state => state.newReview);
+
+    const [ratings, setRatings] = useState(0);
+    const [isopen, setIsOpen] = useState(false);
+    const [comment, setComment] = useState("");
 
     useEffect(() => {
         window.addEventListener('resize', () => {
@@ -238,15 +260,39 @@ function ProductDetailsPage({ isAuth }) {
         }
     }
 
+    const SubmitReviewToggle = () => {
+        setIsOpen(!isopen)
+    };
 
+    const SubmitReview = () => {
+        const data = {
+            rating: ratings,
+            review: comment,
+            productId: id,
+        }
+        dispatch(NewReview(data)).then(() => {
+            dispatch(getProductDetails(id))
+        })
+        setIsOpen(false);
+    }
 
     useEffect(() => {
+        // console.log(1);
         if (error) {
             alert.error(error)
             dispatch(clearErrors())
         }
+
+        if (reviewError) {
+            alert.error(reviewError);
+            dispatch(clearErrors());
+        }
+        if (success) {
+            alert.success("Review Submitted");
+            dispatch({ type: NEW_REVIEW_REQUEST });
+        }
         dispatch(getProductDetails(id))
-    }, [dispatch, error, alert]);
+    }, [dispatch, error, alert, reviewError, success, id]);
 
 
 
@@ -268,7 +314,7 @@ function ProductDetailsPage({ isAuth }) {
                         <div className="ratings-price">
                             <div className='rew-rat'>
                                 <Rating value={product.ratings} precision={0.5} readOnly />
-                                <span className='rew'>{"32 review(s)"}</span>
+                                <span className='rew'>{`${product.numOfreviews} review(s)`}</span>
                             </div>
                             <div className='desc'>
                                 <p>{product.description}</p>
@@ -288,7 +334,7 @@ function ProductDetailsPage({ isAuth }) {
                                     </div>
                                 </div>
                                 <div className="cbtn">
-                                    <button onClick={AddtoCart} disabled={!isAuth}>ADD TO CART</button>
+                                    <Button onClick={AddtoCart} disabled={product.stock < 1 ? true : false}>ADD TO CART</Button>
                                 </div>
                             </div>
                             {product?.stock > 0 ? <div className="acb-2">
@@ -299,9 +345,50 @@ function ProductDetailsPage({ isAuth }) {
                                 <p>Out of Stock</p>
                             </div>}
                         </div>
+                        <Button className="greview" onClick={SubmitReviewToggle}>Write a Review</Button>
                     </div>
                 </div>
             </ProductDetailStyles>
+                <Dialog
+                    aria-labelledby='simple-dialog-title'
+                    open={isopen}
+                    onClose={SubmitReviewToggle}>
+                    <DialogTitle style={{
+                        fontWeight: '600',
+                    }}>Write Reivew</DialogTitle>
+                    <DialogContent style={{
+                        width: '400px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '1rem',
+                        padding: '1rem 2rem',
+                    }}>
+                        <Rating onChange={(e) => setRatings(e.target.value)} value={ratings} size="medium" />
+                        <textarea style={{
+                            padding: '0.5rem 1rem',
+                            fontFamily: 'Poppins,sans-serif',
+                            fontSize: '1rem',
+                            fontWeight: '400'
+                        }} cols="30" rows="4" value={comment} onChange={(e) => setComment(e.target.value)} />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button style={{
+                            fontFamily: 'Poppins,sans-serif',
+                            color: '#181818',
+                            fontSize: '1rem',
+                            fontWeight: 600,
+                        }} onClick={SubmitReviewToggle} >Cancel</Button>
+                        <Button style={{
+                            fontFamily: 'Poppins,sans-serif',
+                            color: '#00C37A',
+                            fontSize: '1rem',
+                            fontWeight: 500,
+                        }} onClick={() => {
+                            SubmitReview();
+                        }}>Submit</Button>
+                    </DialogActions>
+
+                </Dialog>
                 <ReviewsContainer reviews={product.reviews} /></>)}
         </>
     )

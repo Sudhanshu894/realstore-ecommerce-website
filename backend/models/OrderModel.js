@@ -7,7 +7,7 @@ const orderSchema = new mongoose.Schema({
         state: { type: String, required: true },
         country: { type: String, required: true, default: "India" },
         pinCode: { type: Number, required: true },
-        phoneNo: { type: Number, required: true },
+        phoneNo: { type: Number },
     },
     orderItems: [
         {

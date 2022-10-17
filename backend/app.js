@@ -20,6 +20,7 @@ app.use(bodyParse.urlencoded({ extended: true }));
 
 app.use(fileUpload());
 
+app.use('/api', PaymentController);
 //Product Api Call
 app.use('/api', ProductController);
 
@@ -30,7 +31,6 @@ app.use('/api', OrderController);
 
 
 // Payment Api Call
-app.use('/api', PaymentController);
 
 
 // ErrorHandler Middleware

@@ -119,12 +119,10 @@ const MenuOpenStyles = styled.div`
     }
 `
 
-function MenuOpen({ isAuth, user, setOpen, HandleLogout }) {
+function MenuOpen({ isAuth, user, setOpen, HandleLogout, HandleSideMenu }) {
     const navigate = useNavigate();
 
-    const HandleSideMenu = () => {
-        setOpen({ search: false, cart: false, menu: false });
-    }
+
     return (
         <MenuOpenStyles>
             <div className="mopen">
@@ -132,6 +130,7 @@ function MenuOpen({ isAuth, user, setOpen, HandleLogout }) {
                     {isAuth ? <img src={user.avatar.url === "profile_Pic_Url" ? usericon : user.avatar.url} alt="user_pic" /> : <img src={usericon} alt="user_pic" />}
                     <p onClick={() => {
                         navigate('/account')
+                        HandleSideMenu();
                     }}>{user.name[0].toUpperCase() + user.name.split("").splice(1, user.name.length - 1).join("")}</p>
                 </div>) : (<div className='msignin' onClick={() => {
                     HandleSideMenu()
@@ -151,6 +150,9 @@ function MenuOpen({ isAuth, user, setOpen, HandleLogout }) {
                     </div>
                     <div>
                         <p onClick={HandleSideMenu}><Link to='/products'>PRODUCTS</Link></p>
+                    </div>
+                    <div>
+                        <p onClick={HandleSideMenu}><Link to='/cart'>CART</Link></p>
                     </div>
                     <div>
                         <p onClick={HandleSideMenu}><Link to='/about'>ABOUT US</Link></p>

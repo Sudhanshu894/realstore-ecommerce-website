@@ -1,14 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components'
-import Billing from './Billing';
-import { Country, State } from 'country-state-city';
-import CheckoutStepper from './CheckoutStepper';
-import { saveShippingInfo } from '../../redux/CartRed/Actions';
-import CartItem from './CartItem';
-
+import { clearErrors, getOrderDetails } from '../redux/OrderRed/Actions';
+import Loader from '../utils/Loader';
 
 const CheckoutStyles = styled.div`
     width: 1230px;
@@ -16,7 +12,7 @@ const CheckoutStyles = styled.div`
     margin: 2rem auto;
     margin-top: 1rem;
     display: grid;
-    grid-template-columns: 1fr 0.6fr;
+    grid-template-columns: 1fr;
     gap: 1rem;
 
     & > div{
@@ -277,129 +273,48 @@ const CheckoutStyles = styled.div`
 
 `
 
-const BillStyles = styled.div`
-
-    padding-top: 3rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-
-    & > div{
-        display: flex;
-    }
-    *{
-        font-family: 'Poppins',sans-serif;
-    }
-    .code,.tot-bill{
-        justify-content: space-between;
-        align-items: center;
-    }
-    .price-summary{
-        flex-direction: column;
-        gap: 0.2rem;
-        div{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            p{
-                font-size: 1.1rem;
-                font-weight: 400;
-            }
-            span{
-                font-size: 1.1rem;
-                font-weight: 500;
-            }
-        }
-    }
-    .code{
-        p{
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-    }
-    .tot-bill{
-        padding: 1.5rem 0;
-        border-top: 0.5px solid #BEBEBE;
-        border-bottom: 0.5px solid #BEBEBE;
-        p{
-            font-size: 1.1rem;
-            font-weight: 400;
-        }
-        span{
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-    }
-    button{
-        width: 90%;
-        margin: 0 auto;
-        height: 4rem;
-        background-color: #00C37A;
-        border:none;
-        border-radius: 5px;
-        color: #FFF;
-        font-size: 1rem;
-        font-weight: 500;
-        opacity: 0.9;
-        transition: all 0.2s ease-in-out;
-        cursor: pointer;
-
-        &:hover{
-            opacity: 1;
-            transform: translateY(-3px);
-        }
-    }
-`
-
-function ConfirmOrder() {
-
+function OrderDetailsPage() {
+    const { id } = useParams();
     const alert = useAlert();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { cartItems, shippingInfo } = useSelector(state => state.cart);
-    const { user } = useSelector(state => state.user);
-    const [total, setTotal] = useState(cartItems.reduce((acc, curr) => {
-        return acc + curr.price;
-    }, 0) || 0);
-    const [length, setLength] = useState(cartItems.reduce((acc, curr) => {
-        return acc + curr.quantity;
-    }, 0) || 0);
-    const shippingCharges = total > 2000 ? 100 : 0;
-    const tax = Math.floor((total * 18) / 100);
-    const totalPrice = total + shippingCharges + tax;
+    const { shippingInfo } = useSelector(state => state.cart);
+    const { order, error, loading } = useSelector(state => state.orderDetails);
 
-    const SubmitOrder = () => {
-        const data = {
-            subtotal: total,
-            shippingCharges,
-            tax,
-            totalPrice,
-        };
-
-        sessionStorage.setItem("orderInfo", JSON.stringify(data));
-        navigate('/payment');
-    }
-
+    useEffect(() => {
+        if (error) {
+            alert.error(error);
+            dispatch(clearErrors());
+        }
+        dispatch(getOrderDetails(id));
+    }, [dispatch, alert, error])
     return (
         <>
-            <CheckoutStepper activeStep={1} />
-            <CheckoutStyles>
+            {loading ? <Loader /> : <CheckoutStyles>
                 <div>
-                    <h2>ORDER CONFIRMATION</h2>
+                    <h2>ORDER DETAILS - {id}</h2>
                     <div className="confirm">
                         <div className='confirm-shipping-info'>
                             <h3>Shipping Info</h3>
                             <div>
-                                <p>Name: <span>{user.name}</span></p>
-                                <p>email: <span>{user.email}</span></p>
+                                <p>Name: <span>{order.user?.name}</span></p>
+                                <p>email: <span>{order.user?.email}</span></p>
                                 <p>Phone No: <span>{shippingInfo.mobileNo}</span></p>
-                                <p>Address: <span>{`${shippingInfo.city},${shippingInfo.state} - ${shippingInfo.pinCode}, ${shippingInfo.country}`}</span></p>
+                                <p>Address: <span>{order.shippingInfo?.address}</span></p>
+                            </div>
+                        </div>
+                        <div className='confirm-shipping-info'>
+                            <h3>Payment Info</h3>
+                            <div>
+                                <p>Amount Paid: <span>₹{order.totalPrice}</span></p>
+                                <p>Payment date: <span>{String(order?.paidAt).substring(0, 10)}</span></p>
+                                <p>Order Status: <span>{order.orderStatus}</span></p>
                             </div>
                         </div>
                         <div className="cart-overview">
-                            <h3>Cart Overview</h3>
+                            <h3>Ordered Items</h3>
                             <div className="item-wrapper">
-                                {cartItems && cartItems.map((item) => {
+                                {order?.orderItems && order.orderItems?.map((item) => {
                                     return <div className="item">
                                         <div className="display-item">
                                             <img src="http://roythemes.com/demo/modez/_ori/24-home_default/faded-short-sleeves-tshirt.jpg" alt="" />
@@ -424,39 +339,11 @@ function ConfirmOrder() {
                             </div>
                         </div>
                     </div>
-                    <button className='submit' onClick={SubmitOrder}>PROCEED TO PAYMENT</button>
+                    <button className='submit'>B</button>
                 </div>
-                <BillStyles>
-                    <div className="price-summary">
-                        <div>
-                            <p>{length} Items</p>
-                            <span>₹{total}</span>
-                        </div>
-                        <div>
-                            <p>{"Shipping"}</p>
-                            <span>{shippingCharges == 0 ? "Free" : `₹${shippingCharges}`}</span>
-                        </div>
-                        <div>
-                            <p>Tax</p>
-                            <span>₹{tax}</span>
-                        </div>
-                    </div>
-                    <div className="code">
-                        <p>Have a promo code ?</p>
-                    </div>
-                    <div className="tot-bill">
-                        <p>{"Total (Tax Inc.)"}</p>
-                        <span>₹{totalPrice}</span>
-                    </div>
-                    <button onClick={() => {
-                        navigate('/checkout');
-                    }}>
-                        BACK TO CHECKOUT
-                    </button>
-                </BillStyles>
-            </CheckoutStyles>
+            </CheckoutStyles>}
         </>
     )
 }
 
-export default ConfirmOrder
+export default OrderDetailsPage

@@ -32,7 +32,6 @@ module.exports = (err, req, res, next) => {
         const message = 'JWT token is expired. Try again later';
         err = new ErrorHandler(message, 404);
     }
-
     return res.status(err.statusCode).send({
         error: err.message,
         success: false

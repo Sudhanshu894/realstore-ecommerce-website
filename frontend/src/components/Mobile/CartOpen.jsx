@@ -66,7 +66,7 @@ const OpenCartStyles = styled.div`
         }
     }
 `
-function CartOpen({ isAuth }) {
+function CartOpen({ isAuth, HandleSideMenu }) {
     const navigate = useNavigate();
 
     const { cartItems } = useSelector(state => state.cart);
@@ -86,8 +86,9 @@ function CartOpen({ isAuth }) {
                     <img style={{ opacity: 0.2 }} src={carticon} alt="" />
                 </div>)}
                 <button onClick={() => {
-                    navigate('/products')
-                }} disabled={!isAuth}>CONTINUE SHOPPING</button>
+                    navigate('/checkout');
+                    HandleSideMenu();
+                }} disabled={!isAuth}>PROCEED TO CHECKOUT</button>
             </div>
         </OpenCartStyles>
     )

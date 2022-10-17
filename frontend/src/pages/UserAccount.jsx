@@ -179,7 +179,7 @@ function UserPage({ user, HandleLogout, isAuth }) {
                         <p>CART</p>
                     </div>
                     <div onClick={() => {
-                        navigate('/orders')
+                        navigate('/orders/profile')
                     }}>
                         <ListAltIcon />
                         <p>ORDER HISTORY AND DETAILS</p>

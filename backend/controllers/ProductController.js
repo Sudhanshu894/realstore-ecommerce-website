@@ -81,9 +81,8 @@ exports.CreateAndUpdateReview = AsyncErrorHandler(async (req, res, next) => {
     };
 
     const product = await Product.findById(productId);
-    console.log(product);
     const IsReviewed = product.reviews.find(rev => rev.user.toString() === req.user._id.toString());
-    console.log(IsReviewed);
+
     if (IsReviewed) {
         product.reviews.forEach(rev => {
             rev.rating = rating
@@ -91,7 +90,6 @@ exports.CreateAndUpdateReview = AsyncErrorHandler(async (req, res, next) => {
         })
     } else {
         product.reviews.push(data);
-        console.log(product.reviews);
         product.numOfreviews = product.reviews.length;
     }
     let average = 0;

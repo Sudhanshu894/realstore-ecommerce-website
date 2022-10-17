@@ -246,7 +246,7 @@ function CartItem({ item, setTotal, length, DeleteCart }) {
 
     const HandleIncQuan = (id, quantity, stock, price) => {
         const newQuantity = quantity + 1;
-        if (4 <= quantity) {
+        if (stock <= quantity) {
             return;
         }
         setTotal((prev) => prev + price);

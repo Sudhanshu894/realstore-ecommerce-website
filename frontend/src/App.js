@@ -29,6 +29,10 @@ import Payment from './components/Cart/Payment';
 import axios from 'axios';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import ConfirmPay from './components/Cart/ConfirmPay';
+import OrdersPage from './pages/OrdersPage';
+import OrderDetailsPage from './pages/OrderDetailsPage';
+import Dashboard from './pages/Dashboard';
 
 
 const PageStyles = styled.div`
@@ -81,6 +85,9 @@ function App() {
     store.dispatch(Logoutuser());
     alert.success("Logout Successfully");
   }
+  const HandleSideMenu = () => {
+    setOpen({ search: false, cart: false, menu: false });
+  }
   return (
     <Router>
       <GlobalStyles />
@@ -92,8 +99,8 @@ function App() {
 
         {isMobile && <div className='slide-open' style={{ right: open.search && '0px' || open.cart && '0px' || open.menu && '0px' }} >
           {open.search && <SearchOpen />}
-          {open.cart && <CartOpen isAuth={isAuthenticated} />}
-          {open.menu && <MenuOpen isAuth={isAuthenticated} user={user} setOpen={setOpen} HandleLogout={HandleLogout} />}
+          {open.cart && <CartOpen isAuth={isAuthenticated} HandleSideMenu={HandleSideMenu} />}
+          {open.menu && <MenuOpen isAuth={isAuthenticated} user={user} setOpen={setOpen} HandleLogout={HandleLogout} HandleSideMenu={HandleSideMenu} />}
         </div>}
         <Routes>
           <Route exact path='/' element={<LandingPage />}></Route>
@@ -113,7 +120,10 @@ function App() {
           {stripeapikey && <Route path='/payment' element={isAuthenticated && <Elements stripe={loadStripe(stripeapikey)}>
             <Payment />
           </Elements>}></Route>}
-
+          <Route path='/success' element={<ConfirmPay />}></Route>
+          <Route path='/orders/profile' element={isAuthenticated && <OrdersPage />}></Route>
+          <Route path='/order/:id' element={isAuthenticated && <OrderDetailsPage />}></Route>
+          <Route path='/dashboard' element={isAuthenticated && user?.role === "admin" && <Dashboard user={user} />}></Route>
         </Routes>
         <PreFooter />
         <Footer />

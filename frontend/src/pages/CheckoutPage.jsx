@@ -137,7 +137,7 @@ function CheckoutPage() {
     const [state, setState] = useState(shippingInfo.state);
     const [country, setCountry] = useState(shippingInfo.country);
     const [pinCode, setPinCode] = useState(shippingInfo.pinCode);
-    const [mobileNo, setMobileNo] = useState(shippingInfo.mobileNo);
+    const [mobileNo, setMobileNo] = useState(shippingInfo.PhoneNo);
 
 
     const SubmitShippingForm = () => {
@@ -145,7 +145,7 @@ function CheckoutPage() {
             alert.error("Phone Number should be of 10 digits");
             return;
         }
-        dispatch(saveShippingInfo({ name: user.name, email: user.email, city, state, country, pinCode, mobileNo }));
+        dispatch(saveShippingInfo({ city, state, country, pinCode, PhoneNo: Number(mobileNo), address: `${city}, ${state} - ${pinCode}, ${country}` }));
 
         navigate('/order/confirm');
     }
@@ -167,7 +167,7 @@ function CheckoutPage() {
                         </div>
                         <div>
                             <p>City</p>
-                            <input type="text" placeholder='Enter your city' onChange={(e) => setCity(e.target.vale)} />
+                            <input type="text" placeholder='Enter your city' value={city} onChange={(e) => setCity(e.target.value)} />
                         </div>
                         <div>
                             <p>Country</p>

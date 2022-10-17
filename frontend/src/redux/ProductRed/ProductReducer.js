@@ -89,3 +89,37 @@ export const productDetailsReducer = (state = { product: {} }, action) => {
             return state;
     }
 };
+
+
+export const newReviewReducer = (state = {}, action) => {
+    switch (action.type) {
+        case NEW_REVIEW_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case NEW_REVIEW_SUCCESS:
+            return {
+                loading: false,
+                success: action.payment,
+            };
+        case NEW_REVIEW_FAIL:
+            return {
+                loading: false,
+                error: action.payload,
+            };
+        case NEW_REVIEW_RESET:
+            return {
+                ...state,
+                success: false,
+                loading: false,
+            }
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+        default:
+            return state;
+    }
+};
