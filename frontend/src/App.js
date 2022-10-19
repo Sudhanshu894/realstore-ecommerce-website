@@ -38,6 +38,8 @@ import AdminProductUpdateForm from './components/Dashboard/ProductUpdateForm';
 import AdminOrderList from './components/Dashboard/OrderList';
 import AdminOrderUpdate from './components/Dashboard/OrderUpdate';
 import AdminUserList from './components/Dashboard/UserList';
+import AdminUserUpdate from './components/Dashboard/UserUpdate';
+import AdminReviewList from './components/Dashboard/ReviewList';
 
 
 const PageStyles = styled.div`
@@ -114,7 +116,7 @@ function App() {
           <Route path='/product/:id' element={<ProductDetailsPage isAuth={isAuthenticated} />}></Route>
           <Route path='/login' element={<UserFormPage />}></Route>
           <Route path='/account' element={<UserPage user={user} HandleLogout={HandleLogout} isAuth={isAuthenticated} />}></Route>
-          <Route path='/profile' element={isAuthenticated && <UserInfo user={user} />}></Route>
+          <Route path='/profile' element={isAuthenticated && <UserInfo user={user} isAuth={isAuthenticated} />}></Route>
           <Route path='/profile/update' element={isAuthenticated && <ProfileUpdate />}></Route>
           <Route path='/password/update' element={isAuthenticated && <PasswordUpdate />}></Route>
           <Route path='/password/forgot' element={<ForgotPassword />}></Route>
@@ -134,6 +136,8 @@ function App() {
           <Route path='/admin/product/update/:id' element={isAuthenticated && user?.role === "admin" && <AdminProductUpdateForm user={user} />}></Route>
           <Route path='/admin/order/update/:id' element={isAuthenticated && user?.role === "admin" && <AdminOrderUpdate user={user} />}></Route>
           <Route path='/admin/users' element={isAuthenticated && user?.role === "admin" && <AdminUserList user={user} />}></Route>
+          <Route path='/admin/user/update/:id' element={isAuthenticated && user?.role === "admin" && <AdminUserUpdate userdata={user} />}></Route>
+          <Route path='/admin/reviews' element={isAuthenticated && user?.role === "admin" && <AdminReviewList user={user} />}></Route>
         </Routes>
         <PreFooter />
         <Footer />

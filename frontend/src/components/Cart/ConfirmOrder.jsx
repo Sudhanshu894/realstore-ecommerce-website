@@ -3,11 +3,7 @@ import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
-import Billing from './Billing';
-import { Country, State } from 'country-state-city';
 import CheckoutStepper from './CheckoutStepper';
-import { saveShippingInfo } from '../../redux/CartRed/Actions';
-import CartItem from './CartItem';
 
 
 const CheckoutStyles = styled.div`

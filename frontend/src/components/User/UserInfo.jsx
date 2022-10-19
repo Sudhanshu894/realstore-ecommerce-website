@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import PersonIcon from '@material-ui/icons/Person'
@@ -186,7 +186,7 @@ function UserInfo() {
         if (!isAuthenticated) {
             navigate('/login')
         }
-    }, [isAuthenticated, loading])
+    }, [loading, isAuthenticated]);
     return (
         <UserInfoStyles>
             <div className="userinfo-wrapper">

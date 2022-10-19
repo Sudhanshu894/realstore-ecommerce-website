@@ -75,7 +75,7 @@ exports.updateProducts = AsyncErrorHandler(async (req, res, next) => {
 // Get All products details from Id
 exports.getProductDetails = AsyncErrorHandler(async (req, res, next) => {
 
-    let product = await Product.findById(req.params.id);
+    let product = await Product.findById(req.params.id).populate({ path: 'reviews', populate: { path: 'user', model: 'users' } });
     if (!product) {
         return next(new ErrorHandler("Product not found", 404));
     }
@@ -140,7 +140,7 @@ exports.CreateAndUpdateReview = AsyncErrorHandler(async (req, res, next) => {
 
 // Get Product review for specified product
 exports.GetProductRevies = AsyncErrorHandler(async (req, res, next) => {
-    const product = await Product.findById(req.query.productId);
+    const product = await Product.findById(req.query.productId).populate({ path: 'reviews', populate: { path: 'user', model: 'users' } });
 
     if (!product) {
         return next(new Error('Product not found', 404));
@@ -166,8 +166,13 @@ exports.DeleteReview = AsyncErrorHandler(async (req, res, next) => {
         average += review.rating
     });
 
+    let ratings = 0;
+    if (reviews.length === 0) {
+        ratings = 0;
+    } else {
+        ratings = average / reviews.length;
+    }
     const numOfreviews = reviews.length
-    const ratings = average / reviews.length;
 
     await Product.findByIdAndUpdate(req.query.productId, {
         reviews,

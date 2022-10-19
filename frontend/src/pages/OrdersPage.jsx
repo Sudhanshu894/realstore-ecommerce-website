@@ -92,14 +92,17 @@ const OrderPageStyles = styled.div`
     }
 `
 
-function OrdersPage() {
+function OrdersPage({ isAuth }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const alert = useAlert();
     const { loading, error, orders } = useSelector(state => state.myOrders);
-    const { user } = useSelector(state => state.user);
 
     useEffect(() => {
+        if (!isAuth) {
+            navigate('/login');
+        }
+
         if (error) {
             alert.error(error);
             dispatch(clearErrors());

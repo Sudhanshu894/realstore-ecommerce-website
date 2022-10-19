@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import ProductContainer from '../components/Products/ProductContainer'
 import { useDispatch, useSelector } from 'react-redux'

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -118,7 +118,7 @@ const CheckoutStyles = styled.div`
 
 `
 
-function CheckoutPage() {
+function CheckoutPage({ isAuth }) {
 
     const alert = useAlert();
     const navigate = useNavigate();
@@ -149,6 +149,12 @@ function CheckoutPage() {
 
         navigate('/order/confirm');
     }
+
+    useEffect(() => {
+        if (!isAuth) {
+            navigate('/login');
+        }
+    }, []);
 
     return (
         <>

@@ -1,10 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from "react-router-dom";
-import { TreeView, TreeItem } from "@material-ui/lab";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import PostAddIcon from "@material-ui/icons/PostAdd";
-import AddIcon from "@material-ui/icons/Add";
 import ImportExportIcon from "@material-ui/icons/ImportExport";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import DashboardIcon from "@material-ui/icons/Dashboard";
@@ -220,7 +216,7 @@ function SideBar({ user }) {
                     <PeopleIcon />
                     <p>Users</p>
                 </Link>
-                <Link to="/dashboard">
+                <Link to="/admin/reviews">
                     <RateReviewIcon />
                     <p>Reviews</p>
                 </Link>

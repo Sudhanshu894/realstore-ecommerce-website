@@ -8,7 +8,7 @@ router.route('/admin/products').get(IsAuthenticated, RolesBasedAuthorization("ad
 router.route('/product').get(getAllProducts);
 router.route('/product/:id').get(getProductDetails);
 router.route('/review').patch(IsAuthenticated, CreateAndUpdateReview);
-router.route('/reviews').get(GetProductRevies).delete(IsAuthenticated, DeleteReview);
+router.route('/admin/reviews').get(GetProductRevies).delete(IsAuthenticated, DeleteReview);
 router.route('/admin/product/new').post(IsAuthenticated, RolesBasedAuthorization("admin"), createProduct);
 router.route('/admin/product/:id').patch(IsAuthenticated, RolesBasedAuthorization("admin"), updateProducts).delete(IsAuthenticated, RolesBasedAuthorization("admin"), deleteProducts);
 

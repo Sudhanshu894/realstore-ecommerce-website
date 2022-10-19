@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SideBar from './Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAlert } from 'react-alert';
-import { Rating } from '@material-ui/lab';
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { clearErrors, getAllOrders, getOrderDetails, deleteOrder } from '../../redux/OrderRed/Actions';
+import { clearErrors, getAllOrders, deleteOrder } from '../../redux/OrderRed/Actions';
 import { DELETE_ORDER_RESET } from '../../redux/OrderRed/ActioinTypes';
 
 const DashBoardStyles = styled.div`
@@ -220,6 +219,7 @@ function AdminOrderList({ user }) {
     }
 
     useEffect(() => {
+
         if (error) {
             alert.error(`Error: ${error}`);
             dispatch(clearErrors());

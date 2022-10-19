@@ -275,7 +275,6 @@ function ProductDetailsPage({ isAuth }) {
     }
 
     useEffect(() => {
-        // console.log(1);
         if (error) {
             alert.error(error)
             dispatch(clearErrors())

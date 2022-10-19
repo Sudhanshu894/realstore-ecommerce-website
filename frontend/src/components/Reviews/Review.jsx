@@ -1,7 +1,6 @@
 import { Rating } from '@material-ui/lab'
 import React from 'react'
 import styled from 'styled-components'
-import user from '../../assets/imgs/user.svg';
 
 const ReviewboxStyles = styled.div`
     display: flex;
@@ -9,6 +8,7 @@ const ReviewboxStyles = styled.div`
     gap: 1rem;
     padding: 1rem;
     border: 1px solid black;
+    border-radius: 5px;
 
     .reviewer{
         display: flex;
@@ -21,6 +21,7 @@ const ReviewboxStyles = styled.div`
             img{
                 width: 2.5rem;
                 height: 2.5rem;
+                border-radius: 50%;
             }
             p{
                 font-size: 1.3rem;
@@ -49,8 +50,8 @@ function Review({ review }) {
         <ReviewboxStyles>
             <div className="reviewer">
                 <div className="data">
-                    <img src={user} alt={review._id} />
-                    <p>{review.name}</p>
+                    <img src={review?.user?.avatar?.url} alt={review._id} />
+                    <p>{review?.user?.name}</p>
                 </div>
                 <div className="rating">
                     <Rating value={review.rating} precision={0.5} readOnly={true} />

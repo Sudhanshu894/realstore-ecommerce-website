@@ -350,6 +350,8 @@ function AdminOrderUpdate({ user }) {
     }
 
     useEffect(() => {
+
+
         if (error) {
             alert.error(error);
             dispatch(clearErrors());
@@ -360,6 +362,7 @@ function AdminOrderUpdate({ user }) {
         }
         if (isUpdated) {
             alert.success("Order Updated Successfully");
+            navigate('/admin/orders');
             dispatch({ type: UPDATE_ORDER_RESET });
         }
         dispatch(getOrderDetails(id));

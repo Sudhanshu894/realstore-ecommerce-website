@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SideBar from './Sidebar';
 import { Doughnut, Line } from 'react-chartjs-2'
 import { useDispatch, useSelector } from 'react-redux';
-import { useAlert } from 'react-alert';
-import { clearErrors, getAllAdminProducts } from '../../redux/ProductRed/Action';
+import { getAllAdminProducts } from '../../redux/ProductRed/Action';
+import { getAllOrders } from '../../redux/OrderRed/Actions';
+import { getAllUsers } from '../../redux/UserRed/Actions';
 
 const DashBoardStyles = styled.div`
     width: 80%;
@@ -240,8 +241,10 @@ const DashBoardStyles = styled.div`
 function Dashboard({ user }) {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { products } = useSelector(state => state.products);
     const { orders } = useSelector(state => state.allOrders);
+    const { users } = useSelector((state) => state.allUsers);
 
     let ProductsOutofStock = 0;
     products && products?.forEach((item) => {
@@ -254,6 +257,8 @@ function Dashboard({ user }) {
     }, 0);
 
     useEffect(() => {
+        dispatch(getAllUsers());
+        dispatch(getAllOrders())
         dispatch(getAllAdminProducts());
     }, [dispatch]);
 
@@ -298,7 +303,7 @@ function Dashboard({ user }) {
                     </div>
                     <div>
                         <p> Users</p>
-                        <p> 4 </p>
+                        <p> {users?.length}</p>
                     </div>
                     <div className="graph-data">
                         <Line data={LineState} />

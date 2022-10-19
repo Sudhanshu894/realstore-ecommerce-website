@@ -4,7 +4,6 @@ import searchicon from '../../assets/imgs/search.svg';
 import carticon from '../../assets/imgs/bag.svg';
 import usericon from '../../assets/imgs/user.svg';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 const NavMidStyles = styled.div`
     width: 100vw;

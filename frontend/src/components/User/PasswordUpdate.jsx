@@ -3,7 +3,6 @@ import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
-import usericon from '../../assets/imgs/user.svg';
 import { clearErrors, Updatepassword } from '../../redux/UserRed/Actions';
 import { PASS_UPDATE_RESET } from '../../redux/UserRed/ActionTypes';
 import Loader from '../../utils/Loader';

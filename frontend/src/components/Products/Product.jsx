@@ -57,12 +57,12 @@ function Product({ product, button }) {
     };
     return (
         <ProductStyles onClick={() => {
-            navigate(`/product/${product._id}`)
+            navigate(`/product/${product?._id}`)
         }}>
-            <img src={product.images[0].url} alt={product.name} />
+            <img src={product?.images[0]?.url} alt={product?.name} />
             <div className="content">
-                <p>{product.name}</p>
-                <h3>₹{product.price}</h3>
+                <p>{product?.name}</p>
+                <h3>₹{product?.price}</h3>
                 <button>{button}</button>
                 <Rating {...options} />
             </div>

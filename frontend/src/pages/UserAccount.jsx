@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { useAlert } from 'react-alert'
 import { useNavigate } from 'react-router-dom';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
@@ -147,13 +146,12 @@ const MainContainerStyles = styled.div`
 
 `
 function UserPage({ user, HandleLogout, isAuth }) {
-    const alert = useAlert();
     const navigate = useNavigate();
     useEffect(() => {
         if (!isAuth) {
             navigate('/login');
         }
-    }, [HandleLogout])
+    }, [HandleLogout, isAuth])
 
     return (
         <MainContainerStyles>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SideBar from './Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAlert } from 'react-alert';

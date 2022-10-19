@@ -4,14 +4,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import SideBar from './Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAlert } from 'react-alert';
-import { clearErrors, updateProduct, getProductDetails } from '../../redux/ProductRed/Action';
-import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import DescriptionIcon from "@material-ui/icons/Description";
-import StorageIcon from "@material-ui/icons/Storage";
-import SpellcheckIcon from "@material-ui/icons/Spellcheck";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import { Button } from '@material-ui/core';
-import { UPDATE_PRODUCT_RESET } from '../../redux/ProductRed/Actiontypes';
+import { clearErrors, getUserDetails, UpdateUser } from '../../redux/UserRed/Actions';
+import MailOutlineIcon from "@material-ui/icons/MailOutline";
+import PersonIcon from "@material-ui/icons/Person";
+import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
+import Loader from '../../utils/Loader';
+import { USER_UPDATE_RESET } from '../../redux/UserRed/ActionTypes';
 
 const DashBoardStyles = styled.div`
     width: 80%;
@@ -51,8 +50,10 @@ const DashBoardStyles = styled.div`
                 width: 90%;
                 margin: 0 auto;
                 display: flex;
+                height: 100%;
                 flex-direction: column;
-                gap: 0.6rem;
+                justify-content: center;
+                gap: 1rem;
 
                 & > div{
                     width: 70%;
@@ -66,7 +67,7 @@ const DashBoardStyles = styled.div`
                     background-color: #FFF;
                     padding: 0.5rem 1rem;
 
-                    input,textarea,select{
+                    input,select{
                         width: 85%;
                         height: 100%;
                         font-size: 1rem;
@@ -182,192 +183,107 @@ const DashBoardStyles = styled.div`
     }
 `
 
-function AdminProductUpdateForm({ user }) {
+function AdminUserUpdate({ userdata }) {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const alert = useAlert();
 
-    const { loading, error, isUpdated } = useSelector((state) => state.product);
-    const { error: prodDetailError, product } = useSelector(state => state.productDetails);
+    const { loading, error, user } = useSelector((state) => state.userDetails);
+    const { loading: updateLoading, error: updateError, isUpdated } = useSelector(state => state.profile);
 
     // Create Product States
     const [name, setName] = useState("");
-    const [price, setPrice] = useState(0);
-    const [description, setDescription] = useState("");
-    const [category, setCategory] = useState("");
-    const [Stock, setStock] = useState(0);
-    const [oldImages, setOldImages] = useState([]);
-    const [images, setImages] = useState([]);
-    const [imagesPreview, setImagesPreview] = useState([]);
+    const [email, setEmail] = useState("");
+    const [role, setRole] = useState("");
 
 
-    const categories = [
-        "Laptop",
-        "Footwear",
-        "Bottom",
-        "Tops",
-        "Attire",
-        "Camera",
-        "SmartPhones",
-        "Watches",
-        "Electronic Appliances",
-    ];
-
-    const createProductImagesChange = (e) => {
-        const files = Array.from(e.target.files);
-
-        setImages([]);
-        setImagesPreview([]);
-        setOldImages([]);
-
-        files.forEach((file) => {
-            const reader = new FileReader();
-
-            reader.onload = () => {
-                if (reader.readyState === 2) {
-                    setImagesPreview((old) => [...old, reader.result]);
-                    setImages((old) => [...old, reader.result]);
-                }
-            };
-
-            reader.readAsDataURL(file);
-        });
-    };
-
-
-    const UpdateProductHandler = () => {
+    const UpdateUserHandler = () => {
 
         const data = {
             name: name,
-            price: price,
-            description: description,
-            category: category,
-            stock: Stock,
-            images: images,
+            email,
+            role,
         }
-        dispatch(updateProduct(data, id));
+        dispatch(UpdateUser(id, data));
     }
 
     useEffect(() => {
 
-        if (product && product._id !== id) {
-            dispatch(getProductDetails(id));
+
+        if (user && user._id !== id) {
+            dispatch(getUserDetails(id));
         } else {
-            setName(product.name);
-            setCategory(product.category);
-            setPrice(product.price);
-            setStock(product.stock);
-            setDescription(product.description);
-            setOldImages(product.images);
+            setName(user.name);
+            setEmail(user.email);
+            setRole(user.role);
+
         }
         if (error) {
             alert.error(error);
             dispatch(clearErrors());
         }
-
-        if (prodDetailError) {
-            alert.error(prodDetailError);
+        if (updateError) {
+            alert.error(updateError);
             dispatch(clearErrors());
         }
-
         if (isUpdated) {
-            alert.success("Product Updated Successfully");
-            navigate('/admin/products')
-            dispatch({ type: UPDATE_PRODUCT_RESET });
+            alert.success("User Updated Successfully");
+            dispatch({ type: USER_UPDATE_RESET });
+            dispatch(clearErrors());
+            navigate('/admin/users');
         }
-    }, [dispatch, alert, error, isUpdated, id, product, prodDetailError]);
+    }, [dispatch, alert, error, id, user, updateError, isUpdated]);
 
     return (
         <>
             <DashBoardStyles>
-                <SideBar user={user} />
+                <SideBar user={userdata} />
                 <div className="dashboard-container">
                     <div className="prodUpdateForm">
-                        <h2>Update Product Details</h2>
+                        <h2>Update User's Details</h2>
 
-                        <div className="productform">
+                        {loading ? <Loader /> : <div className="productform">
                             <div>
-                                <SpellcheckIcon />
+                                <PersonIcon />
                                 <input
                                     type="text"
-                                    placeholder="Product Name"
+                                    placeholder="Username"
                                     required
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                 />
                             </div>
                             <div>
-                                <AttachMoneyIcon />
+                                <MailOutlineIcon />
                                 <input
-                                    type="text"
-                                    placeholder="Product Price"
+                                    type="email"
+                                    placeholder="Email Address"
                                     required
-                                    value={price}
-                                    onChange={(e) => setPrice(e.target.value)}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                             <div >
-                                <DescriptionIcon />
-                                <textarea
-                                    type="text"
-                                    placeholder="Product Description"
+                                <VerifiedUserIcon />
+                                <select
                                     required
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    cols="20"
-                                    rows="1"
-                                />
-                            </div>
-                            <div>
-                                <AccountTreeIcon />
-                                <select onChange={(e) => setCategory(e.target.value)}>
-                                    <option value="">Choose Category</option>
-                                    {categories.map((cate) => (
-                                        <option key={cate} value={cate}>
-                                            {cate}
-                                        </option>
-                                    ))}
+                                    value={role}
+                                    onChange={(e) => setRole(e.target.value)}
+                                >
+                                    <option value="">Select Role</option>
+                                    <option value="user">User</option>
+                                    <option value="admin">Admin</option>
                                 </select>
-
-                            </div>
-                            <div>
-                                <StorageIcon />
-                                <input
-                                    type="number"
-                                    placeholder="Stock"
-                                    required
-                                    value={Stock}
-                                    onChange={(e) => setStock(e.target.value)}
-                                />
-                            </div>
-                            <div>
-                                <input
-                                    type="file"
-                                    name="avatar"
-                                    accept='image/*'
-                                    onChange={createProductImagesChange}
-                                    multiple
-                                />
-                            </div>
-                            {oldImages?.length > 0 && <div className="imgdiv">
-                                {oldImages.map((image, index) => (
-                                    <img key={index} src={image.url} alt="Product Preview" />
-                                ))}
-                            </div>}
-                            <div className="imgdiv">
-                                {imagesPreview.map((image, index) => (
-                                    <img key={index} src={image} alt="Product Preview" />
-                                ))}
                             </div>
 
                             <Button
-                                onClick={UpdateProductHandler}
-                                disabled={loading ? true : false}
+                                onClick={UpdateUserHandler}
+
                             >
-                                Update
+                                Update User
                             </Button>
-                        </div>
+                        </div>}
                     </div>
                 </div>
             </DashBoardStyles>
@@ -375,4 +291,4 @@ function AdminProductUpdateForm({ user }) {
     )
 }
 
-export default AdminProductUpdateForm
+export default AdminUserUpdate

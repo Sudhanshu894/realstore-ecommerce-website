@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from "react-router-dom";
 import SideBar from './Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAlert } from 'react-alert';
 import { Rating } from '@material-ui/lab';
-import EditIcon from '@material-ui/icons/Edit'
 import DeleteIcon from '@material-ui/icons/Delete'
-import { Button } from '@material-ui/core'
-import { clearErrors, deleteUser, getAllUsers } from '../../redux/UserRed/Actions';
-import Loader from '../../utils/Loader';
-import { USER_DELETE_RESET } from '../../redux/UserRed/ActionTypes';
+import { clearErrors } from '../../redux/OrderRed/Actions';
+import { DELETE_REVIEW_RESET } from '../../redux/ProductRed/Actiontypes';
+import SearchIcon from '@material-ui/icons/Search'
+import { deleteReview, getAllreviews } from '../../redux/ProductRed/Action';
+
 
 const DashBoardStyles = styled.div`
     width: 80%;
@@ -26,6 +26,32 @@ const DashBoardStyles = styled.div`
         display: grid;
         height: 60vh;
         gap: 1rem;
+        
+        .searchid{
+            width: 90%;
+            height: 4rem;
+            margin: 0 auto;
+            border-radius: 8px;
+            position: relative;
+            input{
+                width: 100%;
+                height: 100%;
+                border: none;
+                outline: none;
+                padding: 0 3rem 0 4rem;
+                border-radius: 8px;
+                font-size: 1rem;
+                font-weight: 400;
+                font-family: 'Poppins',sans-serif;
+            }
+            & > svg{
+                position: absolute;
+                width: 2rem;
+                height: 2rem;
+                left: 1rem;
+                top: 1rem;
+            }
+        }
 
         .head{
             display: flex;
@@ -51,6 +77,7 @@ const DashBoardStyles = styled.div`
             flex-direction: column;
             gap: 1rem;
             overflow: auto;
+            height: 45vh;
 
             &::-webkit-scrollbar{
                 width: 5px;
@@ -165,6 +192,7 @@ const DashBoardStyles = styled.div`
 
                 .item{
                     border-radius: 8px;
+                    gap: 1rem;
 
                     *{
                         font-family: 'Poppins',sans-serif;
@@ -173,8 +201,9 @@ const DashBoardStyles = styled.div`
                         font-size: 0.9rem;
                     }
                     & > div{
-                        display: grid;
-                        grid-template-columns: repeat(2,1fr);
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.5rem;
                         .show{
                             display: flex;
                             gap: 1rem;
@@ -189,7 +218,7 @@ const DashBoardStyles = styled.div`
                                 flex-direction: column;
 
                                 p{
-                                    font-size: 0.8rem;
+                                    font-size: 0.9rem;
                                 }
 
                             }
@@ -229,79 +258,87 @@ const DashBoardStyles = styled.div`
 
 `
 
-function AdminUserList({ user }) {
+function AdminReviewList({ user }) {
 
     const dispatch = useDispatch();
-    const alert = useAlert();
-
-    const { users, loading, error } = useSelector((state) => state.allUsers);
-    const { error: deleteUsererror, isDeleted, message } = useSelector(state => state.profile);
     const navigate = useNavigate();
+    const [val, setVal] = useState("");
+    const alert = useAlert();
+    const { error, isDeleted } = useSelector((state) => state.review);
+
+    const { error: reviewError, reviews } = useSelector((state) => state.allReviews);
 
 
-    const DeleteUserHandler = (id) => {
-        dispatch(deleteUser(id));
+    const DeleteReviewHandler = (id) => {
+        dispatch(deleteReview(id, val))
+    }
+
+    const HandleSearchReview = (e) => {
+        if (e.key === 'Enter') {
+            dispatch(getAllreviews(val))
+        }
     }
 
     useEffect(() => {
-        // console.log(1);
+
 
         if (error) {
-            alert.error(`Error: ${error}`);
+            alert.error(error);
             dispatch(clearErrors());
         }
-        if (deleteUsererror) {
-            alert.error(deleteUsererror);
+
+        if (reviewError) {
+            alert.error(reviewError);
             dispatch(clearErrors());
         }
+
         if (isDeleted) {
-            alert.success(message);
-            dispatch({ type: USER_DELETE_RESET })
+            alert.success("Review Deleted Successfully");
+            dispatch({ type: DELETE_REVIEW_RESET });
+            dispatch(getAllreviews(val));
         }
-        dispatch(getAllUsers());
-    }, [dispatch, alert, error, isDeleted, deleteUsererror, message]);
+    }, [dispatch, alert, error, isDeleted, reviewError]);
 
     return (
         <>
             <DashBoardStyles>
                 <SideBar user={user} />
                 <div className="dashboard-container">
-                    <div className='head'>
-                        <h2>{`USERS LIST (${users?.length})`}</h2>
-                        <Button>CREATE USER</Button>
+                    <div className="searchid">
+                        <SearchIcon />
+                        <input type="text" placeholder='Enter Product Id' value={val} onChange={(e) => setVal(e.target.value)} onKeyUp={HandleSearchReview} />
                     </div>
-                    {loading ? <Loader /> : <div className="product-list">
-                        {users && users?.map((user) => {
+                    <div className='head'>
+                        {reviews && <h2>{`REVIEW LIST (${reviews?.length})`}</h2>}
+                    </div>
+                    <div className="product-list">
+                        {reviews && reviews?.map((review) => {
                             return <div className="item" >
-                                <p style={{ cursor: "pointer" }}>User ID - {user?._id}</p>
+                                <p style={{ cursor: "pointer" }}>Review ID - {review?._id}</p>
                                 <div>
                                     <div className="show">
-                                        <img src={user?.avatar?.url} alt="" />
+                                        <img src={review?.user?.avatar?.url} alt="" />
                                         <div className="info">
-                                            <p>{user?.name}</p>
-                                            <p>{user?.email}</p>
-                                            {user?.role === "admin" && <Rating value={1} precision={1} size={'small'} readOnly max={1} />}
+                                            <p>Reviewed By - {review?.user?.name}</p>
+                                            <Rating value={review?.rating} precision={1} size={'small'} readOnly />
                                         </div>
                                     </div>
                                     <div className="pandq">
-                                        <p style={{ color: user?.role === "admin" ? 'green' : 'red' }}>{user?.role}</p>
+                                        <p>{review?.review}</p>
                                     </div>
                                     <div className="actions">
-                                        <EditIcon onClick={() => {
-                                            navigate(`/admin/user/update/${user._id}`);
-                                        }} />
                                         <DeleteIcon onClick={() => {
-                                            DeleteUserHandler(user?._id);
+                                            DeleteReviewHandler(review?._id);
                                         }} />
                                     </div>
                                 </div>
                             </div>
                         })}
-                    </div>}
+                    </div>
                 </div>
             </DashBoardStyles>
         </>
     )
 }
 
-export default AdminUserList
+export default AdminReviewList
