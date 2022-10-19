@@ -1,19 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components'
-import { clearErrors, getOrderDetails } from '../redux/OrderRed/Actions';
-import Loader from '../utils/Loader';
+import { clearErrors, getOrderDetails, updateOrder } from '../../redux/OrderRed/Actions';
+import Loader from '../../utils/Loader';
+import SideBar from './Sidebar';
+import { Button } from '@material-ui/core'
+import { UPDATE_ORDER_RESET } from '../../redux/OrderRed/ActioinTypes';
 
 const CheckoutStyles = styled.div`
-    width: 1230px;
-    height: fit-content;
+    width: 100%;
+    height: 60vh;
+    overflow: auto;
     margin: 2rem auto;
     margin-top: 1rem;
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
+    
+    &::-webkit-scrollbar{
+        width: 5px;
+    }
 
     & > div{
         background-color: #FFF;
@@ -67,7 +75,7 @@ const CheckoutStyles = styled.div`
             *{
                 font-family: 'Poppins',sans-serif;
             }
-            .confirm-shipping-info,.cart-overview{
+            .confirm-shipping-info,.cart-overview,.updateOrder{
                 padding: 2rem;
                 border-radius: 10px;
                 display: flex;
@@ -201,11 +209,38 @@ const CheckoutStyles = styled.div`
                     }
                 }
             }
+            .updateOrder{
+                select{
+                    width: 80%;
+                    height: 4rem;
+                    margin: 0 auto;
+                    border: 0.5px solid #BEBEBE;
+                    border-radius: 5px;
+                    font-size: 1.1rem;
+                    padding-left: 1rem;
+                }
+                button{
+                    width: 70%;
+                    height: 4rem;
+                    background-color: #00C37A;
+                    color: #FFF;
+                    font-size: 1rem;
+                    font-weight: 500;
+                    border: none;
+                    border-radius: 5px;
+                    margin: 1rem auto;
+
+                    &:disabled{
+                        background-color: #353535;
+                        opacity: 0.8;
+                    }
+                }
+            }
         } 
     }
 
     @media (min-width: 991px) and (max-width: 1380px){
-        width: 980px;
+        width: 95%;
         & > div{
             padding: 1.5rem 2.5rem;
             background-color: #FFF;
@@ -217,10 +252,8 @@ const CheckoutStyles = styled.div`
     }
     @media (min-width: 768px) and (max-width: 990px) {
         width: 90%;
-        grid-template-columns: 1fr 0.8fr;
 
         & > div{
-
             .confirm{
                 .cart-overview{
                     .item-wrapper{
@@ -243,14 +276,11 @@ const CheckoutStyles = styled.div`
         
     }
     @media (min-width: 600px) and (max-width: 767px){
-        width: 90%;
-        grid-template-columns: 1fr;
-
+        width: 100%;
     }
 
     @media (max-width: 599px){
-        width: 90%;
-        grid-template-columns: 1fr;
+        width: 100%;
         & > div{
             .confirm{
                 .cart-overview{
@@ -261,8 +291,13 @@ const CheckoutStyles = styled.div`
                             display: flex;
                             flex-direction: column;
                             align-items: flex-start;
-                            .item-content{
+                            .display-item,.item-content{
                                 align-self: center;
+                                & > div{
+                                    p{
+                                        font-size: 1rem;
+                                    }
+                                }
                             }
                         }
                     }
@@ -272,28 +307,83 @@ const CheckoutStyles = styled.div`
     }
 
 `
+const DashBoardStyles = styled.div`
+    width: 80%;
+    height: fit-content;
+    margin: 2rem auto;
+    display: grid;
+    grid-template-columns: 0.3fr 1fr;
+    gap: 1rem;
+    background: #BEBEBE;
+    border-radius: 15px;
+    @media (min-width: 991px) and (max-width: 1380px){
+        width: 980px;
+        
+    }
+    @media (min-width: 768px) and (max-width: 990px){
+        width: 90%;
+        grid-template-columns: 0.02fr 1fr;
+    }
+    @media (max-width: 767px){
+       width: 90%;
+        grid-template-columns: 0.02fr 1fr;
+    }
 
-function OrderDetailsPage() {
+`
+
+
+function AdminOrderUpdate({ user }) {
     const { id } = useParams();
     const alert = useAlert();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [status, setStatus] = useState("");
     const { shippingInfo } = useSelector(state => state.cart);
     const { order, error, loading } = useSelector(state => state.orderDetails);
+    const { error: updateError, isUpdated } = useSelector(state => state.order);
+
+    const UpdateOrderHandler = () => {
+        const data = {
+            status: status
+        }
+        dispatch(updateOrder(id, data));
+    }
 
     useEffect(() => {
         if (error) {
             alert.error(error);
             dispatch(clearErrors());
         }
+        if (updateError) {
+            alert.error(updateError);
+            dispatch(clearErrors());
+        }
+        if (isUpdated) {
+            alert.success("Order Updated Successfully");
+            dispatch({ type: UPDATE_ORDER_RESET });
+        }
         dispatch(getOrderDetails(id));
-    }, [dispatch, alert, error])
+    }, [dispatch, alert, error, id, isUpdated, updateError])
     return (
-        <>
+        <DashBoardStyles>
+            <SideBar user={user} />
+
             {loading ? <Loader /> : <CheckoutStyles>
                 <div>
                     <h2>ORDER DETAILS - {id}</h2>
                     <div className="confirm">
+                        {order?.orderStatus !== "Delivered" && <div className="updateOrder">
+                            <h3>
+                                Order Process
+                            </h3>
+
+                            <select onChange={(e) => setStatus(e.target.value)}>
+                                <option value="">Set Order Status</option>
+                                {order?.orderStatus === "Processing" && <option value="Shipped">Shipped</option>}
+                                {order?.orderStatus === "Shipped" && <option value="Delivered">Delivered</option>}
+                            </select>
+                            <Button disabled={loading ? true : false || status === "" ? true : false} onClick={UpdateOrderHandler}>Update Order Status</Button>
+                        </div>}
                         <div className='confirm-shipping-info'>
                             <h3>Shipping Info</h3>
                             <div>
@@ -306,9 +396,9 @@ function OrderDetailsPage() {
                         <div className='confirm-shipping-info'>
                             <h3>Payment Info</h3>
                             <div>
-                                <p>Amount Paid: <span>₹{order.totalPrice}</span></p>
+                                <p>Amount Paid: <span style={{ color: "green" }}>₹{order.totalPrice}</span></p>
                                 <p>Payment date: <span>{String(order?.paidAt).substring(0, 10)}</span></p>
-                                <p>Order Status: <span>{order.orderStatus}</span></p>
+                                <p>Order Status: <span style={{ color: order.orderStatus !== "Delivered" ? 'red' : 'green' }}>{order.orderStatus}</span></p>
                             </div>
                         </div>
                         <div className="cart-overview">
@@ -317,9 +407,10 @@ function OrderDetailsPage() {
                                 {order?.orderItems && order.orderItems?.map((item) => {
                                     return <div className="item">
                                         <div className="display-item">
-                                            <img style={{ objectFit: 'contain' }} src={item.image === "sample_img" ? "https://wedevelopment.in/wp-content/uploads/2019/08/no_image_png_934948.jpg" : item.image} alt="" />
+                                            <img src={item.image === "sample_img" ? "https://wedevelopment.in/wp-content/uploads/2019/08/no_image_png_934948.jpg" : item.image} alt="" />
                                             <div>
                                                 <p>{item.name}</p>
+                                                {/* <span>{item.category}</span> */}
                                             </div>
                                         </div>
                                         <div className="item-content">
@@ -337,12 +428,12 @@ function OrderDetailsPage() {
                                 })}
                             </div>
                         </div>
+
                     </div>
-                    <button className='submit'>B</button>
                 </div>
             </CheckoutStyles>}
-        </>
+        </DashBoardStyles>
     )
 }
 
-export default OrderDetailsPage
+export default AdminOrderUpdate

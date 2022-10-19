@@ -66,7 +66,7 @@ export const getAllOrders = () => async (dispatch) => {
     try {
         dispatch({ type: ALL_ORDERS_REQUEST });
 
-        const { data } = await axios.get("/api/admin/orders");
+        const { data } = await axios.get(`/api/admin/orders`);
 
         dispatch({ type: ALL_ORDERS_SUCCESS, payload: data.orders });
     } catch (error) {
@@ -88,7 +88,7 @@ export const updateOrder = (id, order) => async (dispatch) => {
                 "Content-Type": "application/json",
             },
         };
-        const { data } = await axios.put(
+        const { data } = await axios.patch(
             `/api/admin/order/${id}`,
             order,
             config

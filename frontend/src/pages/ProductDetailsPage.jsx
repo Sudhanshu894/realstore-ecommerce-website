@@ -270,9 +270,7 @@ function ProductDetailsPage({ isAuth }) {
             review: comment,
             productId: id,
         }
-        dispatch(NewReview(data)).then(() => {
-            dispatch(getProductDetails(id))
-        })
+        dispatch(NewReview(data));
         setIsOpen(false);
     }
 

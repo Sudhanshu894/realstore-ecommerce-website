@@ -256,13 +256,11 @@ exports.UpdateUserRole = AsyncErrorHandler(async (req, res, next) => {
 exports.DeleteUser = AsyncErrorHandler(async (req, res, next) => {
 
     const user = await User.findById(req.params.id);
+    await cloudinary.v2.uploader.destroy(user.avatar.public_id);
 
     if (!user) {
         return next(new ErrorHandler("User does not exist", 404));
     }
     await User.findByIdAndDelete(req.params.id);
-
-    return res.status(200).send({ success: true })
-
-
+    return res.status(200).send({ success: true, message: "User Deleted Successfully" })
 });

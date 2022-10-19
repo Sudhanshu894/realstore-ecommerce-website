@@ -32,7 +32,12 @@ import { loadStripe } from '@stripe/stripe-js';
 import ConfirmPay from './components/Cart/ConfirmPay';
 import OrdersPage from './pages/OrdersPage';
 import OrderDetailsPage from './pages/OrderDetailsPage';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
+import AdminProductList from './components/Dashboard/ProductList';
+import AdminProductUpdateForm from './components/Dashboard/ProductUpdateForm';
+import AdminOrderList from './components/Dashboard/OrderList';
+import AdminOrderUpdate from './components/Dashboard/OrderUpdate';
+import AdminUserList from './components/Dashboard/UserList';
 
 
 const PageStyles = styled.div`
@@ -124,6 +129,11 @@ function App() {
           <Route path='/orders/profile' element={isAuthenticated && <OrdersPage />}></Route>
           <Route path='/order/:id' element={isAuthenticated && <OrderDetailsPage />}></Route>
           <Route path='/dashboard' element={isAuthenticated && user?.role === "admin" && <Dashboard user={user} />}></Route>
+          <Route path='/admin/products' element={isAuthenticated && user?.role === "admin" && <AdminProductList user={user} />}></Route>
+          <Route path='/admin/orders' element={isAuthenticated && user?.role === "admin" && <AdminOrderList user={user} />}></Route>
+          <Route path='/admin/product/update/:id' element={isAuthenticated && user?.role === "admin" && <AdminProductUpdateForm user={user} />}></Route>
+          <Route path='/admin/order/update/:id' element={isAuthenticated && user?.role === "admin" && <AdminOrderUpdate user={user} />}></Route>
+          <Route path='/admin/users' element={isAuthenticated && user?.role === "admin" && <AdminUserList user={user} />}></Route>
         </Routes>
         <PreFooter />
         <Footer />

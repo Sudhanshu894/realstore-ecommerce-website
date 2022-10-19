@@ -15,6 +15,6 @@ router.route('/profile').get(IsAuthenticated, getUserInfo);
 router.route('/password/update').patch(IsAuthenticated, changeUserPassword);
 router.route('/profile/update').patch(IsAuthenticated, updateProfile);
 router.route('/admin/users').get(IsAuthenticated, RolesBasedAuthorization("admin"), GetAllUsers);
-router.route('/admin/users/:id').get(IsAuthenticated, RolesBasedAuthorization("admin"), GetSpecificUser).patch(IsAuthenticated, RolesBasedAuthorization("admin"), UpdateUserRole).delete(IsAuthenticated, RolesBasedAuthorization("admin"), DeleteUser);
+router.route('/admin/user/:id').get(IsAuthenticated, RolesBasedAuthorization("admin"), GetSpecificUser).patch(IsAuthenticated, RolesBasedAuthorization("admin"), UpdateUserRole).delete(IsAuthenticated, RolesBasedAuthorization("admin"), DeleteUser);
 
 module.exports = router
