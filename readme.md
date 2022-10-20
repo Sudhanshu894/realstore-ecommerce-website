@@ -38,11 +38,6 @@ It's an Ecommerce Web application where user can find, select, filter and purcha
 [RealStore - Ecommerce Deployed Link](https://samplelink.com)
 
 
-## Screenshots
-
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-
-
 ## Run Locally
 
 Clone the project
