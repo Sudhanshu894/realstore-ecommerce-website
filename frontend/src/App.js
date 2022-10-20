@@ -1,5 +1,6 @@
 import GlobalStyles from './styles/GlobalStyles';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import WebFont from 'webfontloader';
 import LandingPage from './pages/LandingPage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
 import ProductsPage from './pages/ProductsPage';
@@ -83,6 +84,12 @@ function App() {
     setStripeapikey(data.stripekey);
   }
   useEffect(() => {
+
+    WebFont.load({
+      google: {
+        families: ["Cuprum", "Oswald"]
+      }
+    })
     window.addEventListener('resize', () => {
       setIsMobile(window.matchMedia('(max-width: 990px)').matches);
     })
@@ -90,6 +97,7 @@ function App() {
     getStriptkey();
 
   }, []);
+  window.addEventListener("contextmenu", (e) => e.preventDefault());
 
   const HandleLogout = () => {
     store.dispatch(Logoutuser());
@@ -98,6 +106,7 @@ function App() {
   const HandleSideMenu = () => {
     setOpen({ search: false, cart: false, menu: false });
   }
+
   return (
     <Router>
       <GlobalStyles />

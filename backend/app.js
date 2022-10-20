@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const path = require('path');
 const errorHandler = require('./middleware/ErrorHandler');
 const ProductController = require('./routes/ProductRoute');
 const UserController = require('./routes/UserRoute');
@@ -9,9 +10,12 @@ const PaymentController = require('./routes/PaymentRoute');
 const cookieParser = require('cookie-parser');
 const bodyParse = require('body-parser');
 const fileUpload = require('express-fileupload');
-const dotenv = require('dotenv');
 
-dotenv.config({ path: './backend/configs/config.env' });
+
+//config
+if (process.env.NODE_ENV !== "PRODUCTION") {
+    require("dotenv").config({ path: './backend/configs/config.env' });
+}
 
 app.use(express.json());
 app.use(cookieParser());
@@ -30,7 +34,12 @@ app.use('/api', UserController);
 app.use('/api', OrderController);
 
 
-// Payment Api Call
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
+})
 
 
 // ErrorHandler Middleware

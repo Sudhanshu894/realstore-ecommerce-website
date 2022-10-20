@@ -35,7 +35,8 @@
     "redux-thunk": "^2.4.1",
     "remixicon": "^2.5.0",
     "styled-components": "^5.3.6",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "webfontloader": "^1.6.28"
   },
   "scripts": {
     "start": "react-scripts start",

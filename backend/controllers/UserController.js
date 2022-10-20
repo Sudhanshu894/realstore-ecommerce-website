@@ -87,7 +87,7 @@ exports.forgetUserPassword = AsyncErrorHandler(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
 
 
-    const forgetPassUrl = `http://localhost:3000/api/password/reset/${newToken}`;
+    const forgetPassUrl = `${req.protocol}://${req.get("host")}/api/password/reset/${newToken}`;
     const message = `Your Password reset Link is : \n\n ${forgetPassUrl} \n\n if you have not requested to reset your password then please ignore this message`;
 
 
