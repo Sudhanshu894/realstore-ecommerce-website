@@ -11,6 +11,11 @@ const GlobalStyles = createGlobalStyle`
 
     body{
         background-color: #F2F2F2;
+        overflow: auto;
+
+        &::-webkit-scrollbar{
+            width: 5px;
+        }
     }
 
     ul {

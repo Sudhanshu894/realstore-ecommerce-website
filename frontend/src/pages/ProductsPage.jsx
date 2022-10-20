@@ -266,6 +266,18 @@ function ProductsPage() {
     const [ratings, setRatings] = useState(0);
     const { loading, error, products, productsCount, resultPerPage } = useSelector(state => state.products);
 
+    const categories = [
+        "Laptop",
+        "Footwear",
+        "Bottom",
+        "Tops",
+        "Attire",
+        "Camera",
+        "SmartPhones",
+        "Watches",
+        "Electronic Appliances",
+    ];
+
     const HandlePrice = (e, newPrice) => {
         setPrice(newPrice)
     }
@@ -282,7 +294,6 @@ function ProductsPage() {
             return alert.error(error)
         }
         dispatch(getProduct(keyword, currPage, price, ratings, category));
-        console.log(category);
     }, [dispatch, keyword, error, alert, currPage, price, ratings, category]);
 
 
@@ -312,31 +323,12 @@ function ProductsPage() {
                             </div>
                             <div className="category-filter">
                                 <h3>Select Category</h3>
-                                <div>
-                                    <input type="radio" name='category' value='machine' onChange={(e) => setCategory(e.target.value)} />
-                                    <span>Machine</span>
-                                </div>
-                                <div>
-                                    <input type="radio" name='category' value='machine' onChange={(e) => setCategory(e.target.value)} />
-                                    <span>Machine</span>
-                                </div>
-                                <div>
-                                    <input type="radio" name='category' value='machine' onChange={(e) => setCategory(e.target.value)} />
-                                    <span>Machine</span>
-                                </div>
-                                <div>
-                                    <input type="radio" name='category' value='anything' onChange={(e) => setCategory(e.target.value)} />
-                                    <span>anything</span>
-                                </div>
-                                <div>
-                                    <input type="radio" name='category' value='anything' onChange={(e) => setCategory(e.target.value)} />
-                                    <span>anything</span>
-                                </div>
-                                <div>
-                                    <input type="radio" name='category' value='anything' onChange={(e) => setCategory(e.target.value)} />
-                                    <span>anything</span>
-                                </div>
-
+                                {categories && categories.map((option, ind) => {
+                                    return <div key={ind}>
+                                        <input type="radio" name='category' value={option} onChange={(e) => setCategory(e.target.value)} />
+                                        <span>{option}</span>
+                                    </div>
+                                })}
                             </div>
                             <div className="rating-filter">
                                 <h3>Select Rating</h3>
@@ -361,7 +353,7 @@ function ProductsPage() {
                         <h2>PRODUCTS</h2>
                         <div className="Prod-grid">
                             {products && products.map((product) => {
-                                return <Product product={product} button={"VIEW DETAILS"} />
+                                return <Product key={product._id} product={product} button={"VIEW DETAILS"} />
                             })}
                         </div>
                     </div>

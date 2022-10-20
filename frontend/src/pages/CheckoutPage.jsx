@@ -118,7 +118,7 @@ const CheckoutStyles = styled.div`
 
 `
 
-function CheckoutPage({ isAuth }) {
+function CheckoutPage() {
 
     const alert = useAlert();
     const navigate = useNavigate();
@@ -149,12 +149,6 @@ function CheckoutPage({ isAuth }) {
 
         navigate('/order/confirm');
     }
-
-    useEffect(() => {
-        if (!isAuth) {
-            navigate('/login');
-        }
-    }, []);
 
     return (
         <>
