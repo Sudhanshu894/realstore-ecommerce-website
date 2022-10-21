@@ -3,7 +3,7 @@ import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
-import user from '../../assets/imgs/user.svg';
+import user from '../../assets/user.svg';
 import { clearErrors, Loginuser } from '../../redux/UserRed/Actions';
 import Loader from '../../utils/Loader';
 

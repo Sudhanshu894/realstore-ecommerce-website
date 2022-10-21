@@ -1,5 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
+import img1 from '../../assets/1-brand_default.jpg'
+import img2 from '../../assets/2-brand_default.jpg'
+import img3 from '../../assets/3-brand_default.jpg'
+import img4 from '../../assets/4-brand_default.jpg'
+import img5 from '../../assets/5-brand_default.jpg'
+import img6 from '../../assets/6-brand_default.jpg'
 
 const SliderStyles = styled.div`
     width: 100vw;
@@ -83,12 +89,7 @@ const SliderStyles = styled.div`
 
 function PreFooter() {
 
-    let data = ['http://roythemes.com/demo/modez/_ori/img/m/6-brand_default.jpg',
-        'http://roythemes.com/demo/modez/_ori/img/m/5-brand_default.jpg',
-        'http://roythemes.com/demo/modez/_ori/img/m/4-brand_default.jpg',
-        'http://roythemes.com/demo/modez/_ori/img/m/3-brand_default.jpg',
-        'http://roythemes.com/demo/modez/_ori/img/m/2-brand_default.jpg',
-        'http://roythemes.com/demo/modez/_ori/img/m/1-brand_default.jpg']
+    let data = [img1, img2, img3, img4, img5, img6]
 
     data = [...data, ...data]
 

@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import profile from '../assets/imgs/profile.png'
-import insta from '../assets/imgs/instagram.svg'
-import github from '../assets/imgs/github.svg'
-import linkedin from '../assets/imgs/linkedin.svg'
+import profile from '../assets/profile.png'
+import insta from '../assets/instagram.svg'
+import github from '../assets/github.svg'
+import linkedin from '../assets/linkedin.svg'
 
 const AboutPageStyles = styled.div`
     width: 1230px;

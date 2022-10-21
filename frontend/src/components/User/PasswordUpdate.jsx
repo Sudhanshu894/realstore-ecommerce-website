@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { clearErrors, Updatepassword } from '../../redux/UserRed/Actions';
 import { PASS_UPDATE_RESET } from '../../redux/UserRed/ActionTypes';
 import Loader from '../../utils/Loader';
-import arrow from '../../assets/imgs/icons8-up-arrow-96.png';
+import arrow from '../../assets/icons8-up-arrow-96.png';
 
 const UpdateUserForm = styled.div`
     width: 100vw;

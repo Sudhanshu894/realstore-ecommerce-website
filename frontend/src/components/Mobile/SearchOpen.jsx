@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import search from '../../assets/imgs/search.svg'
+import search from '../../assets/search.svg'
 
 const OpenSearchStyles = styled.div`
     width: 100%;

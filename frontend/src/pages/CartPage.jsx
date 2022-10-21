@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import arrow from '../assets/imgs/arrow.svg';
+import arrow from '../assets/arrow.svg';
 import CartItem from '../components/Cart/CartItem';
 import { Removefromcart } from '../redux/CartRed/Actions'
-import carticon from '../assets/imgs/bag.svg'
+import carticon from '../assets/bag.svg'
 import Billing from '../components/Cart/Billing';
 
 const CartPageStyles = styled.div`

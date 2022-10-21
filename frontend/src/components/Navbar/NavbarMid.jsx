@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import searchicon from '../../assets/imgs/search.svg';
-import carticon from '../../assets/imgs/bag.svg';
-import usericon from '../../assets/imgs/user.svg';
+import searchicon from '../../assets/search.svg';
+import carticon from '../../assets/bag.svg';
+import usericon from '../../assets/user.svg';
 import { useNavigate } from 'react-router-dom';
 
 const NavMidStyles = styled.div`

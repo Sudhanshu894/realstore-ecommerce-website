@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import NavbarTop from './NavbarTop'
-import search from '../../assets/imgs/search.svg'
-import carticon from '../../assets/imgs/bag.svg';
-import menu from '../../assets/imgs/menu.svg'
-import cross from '../../assets/imgs/x.svg'
+import search from '../../assets/search.svg'
+import carticon from '../../assets/bag.svg';
+import menu from '../../assets/menu.svg'
+import cross from '../../assets/x.svg'
 import { useNavigate } from 'react-router-dom';
 
 const NavResponsiveStyles = styled.div`

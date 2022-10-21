@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
-import carticon from '../../assets/imgs/bag.svg'
+import carticon from '../../assets/bag.svg'
 import CartItem from '../Cart/CartItem';
 
 const OpenCartStyles = styled.div`

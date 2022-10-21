@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import arrow from '../../assets/imgs/arrow.svg';
+import arrow from '../../assets/arrow.svg';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useDispatch } from 'react-redux';
 import { Addtocart } from '../../redux/CartRed/Actions';

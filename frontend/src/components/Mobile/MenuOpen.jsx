@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import home from '../../assets/imgs/home.svg'
-import usericon from '../../assets/imgs/user.svg'
+import home from '../../assets/home.svg'
+import usericon from '../../assets/user.svg'
 const MenuOpenStyles = styled.div`
     width: 100%;
     height: fit-content;

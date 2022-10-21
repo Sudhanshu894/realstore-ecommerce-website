@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import PersonIcon from '@material-ui/icons/Person'
 import styled from 'styled-components'
-import arrow from '../../assets/imgs/icons8-up-arrow-96.png'
+import arrow from '../../assets/icons8-up-arrow-96.png'
 import Loader from '../../utils/Loader';
 
 

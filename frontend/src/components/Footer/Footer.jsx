@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import facebook from '../../assets/imgs/facebook.svg'
-import twitter from '../../assets/imgs/twitter.svg'
-import pinterest from '../../assets/imgs/pinterest.svg'
-import youtube from '../../assets/imgs/youtube.svg'
-import instagram from '../../assets/imgs/instagram.svg'
-import arrow from '../../assets/imgs/icons8-up-arrow-96.png'
+import facebook from '../../assets/facebook.svg'
+import twitter from '../../assets/twitter.svg'
+import pinterest from '../../assets/pinterest.svg'
+import youtube from '../../assets/youtube.svg'
+import instagram from '../../assets/instagram.svg'
+import arrow from '../../assets/icons8-up-arrow-96.png'
 
 const FooterStyles = styled.div`
     width: 100vw;

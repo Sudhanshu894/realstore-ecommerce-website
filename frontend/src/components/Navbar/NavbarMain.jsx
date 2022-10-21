@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom'
-import homeicon from '../../assets/imgs/home.svg'
+import homeicon from '../../assets/home.svg'
 
 const NavMainStyles = styled.div`
     width: 100vw;

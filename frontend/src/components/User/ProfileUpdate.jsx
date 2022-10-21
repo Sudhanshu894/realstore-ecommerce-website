@@ -3,11 +3,11 @@ import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
-import usericon from '../../assets/imgs/user.svg';
+import usericon from '../../assets/user.svg';
 import { clearErrors, Loaduser, Updateprofile } from '../../redux/UserRed/Actions';
 import { PROFILE_UPDATE_RESET } from '../../redux/UserRed/ActionTypes';
 import Loader from '../../utils/Loader';
-import arrow from '../../assets/imgs/icons8-up-arrow-96.png';
+import arrow from '../../assets/icons8-up-arrow-96.png';
 
 const UpdateUserForm = styled.div`
     width: 100vw;

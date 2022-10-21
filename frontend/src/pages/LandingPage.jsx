@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getProduct } from '../redux/ProductRed/Action'
 import Loader from '../utils/Loader'
 import { useAlert } from 'react-alert'
+import banner from '../assets/main_banner.jpg'
+import banner_top1 from '../assets/banner_top1.jpeg'
+import banner_top2 from '../assets/banner_top2.jpeg'
+import banner_top3 from '../assets/banner_top3.jpeg'
 
 const MainContainerStyles = styled.div`
     width: 100vw;
@@ -162,7 +166,7 @@ function LandingPage() {
         <>
             {loading ? (<Loader />) : (<MainContainerStyles style={{ perspective: '20px' }}>
                 <div className="home-header">
-                    <img src="http://roythemes.com/demo/modez/_ori/modules/revsliderprestashop/uploads/slider1_bg_2.jpg" alt="" />
+                    <img src={banner} alt="" />
                     <h1 className='overlay-mid'>RSTORE</h1>
                     <div className='overlay-3'>
                         <p>2018</p>
@@ -175,9 +179,9 @@ function LandingPage() {
                     </div>
                 </div>
                 <div className="home-header-2">
-                    <img src="http://roythemes.com/demo/modez/_ori/modules/roy_content/img/3830574f8337d7721b6ebbfc54c31167ebb5ed46_bannertop1jpg" alt="" />
-                    <img src="http://roythemes.com/demo/modez/_ori/modules/roy_content/img/d411173bd0ea4f0d7a3e7509bfbf18ed4edfbe16_bannertop2jpg" alt="" />
-                    <img src="http://roythemes.com/demo/modez/_ori/modules/roy_content/img/78e72f054430fd9830935c68eefdbd60ff8a47ca_bannertop3jpg" alt="" />
+                    <img src={banner_top1} alt="top1" />
+                    <img src={banner_top2} alt="top2" />
+                    <img src={banner_top3} alt="top3" />
                 </div>
                 <ProductContainer title={"POPULAR PRODUCTS"} products={products} />
                 <ProductContainer title={"BESTSELLER PRODUCTS"} products={products} />

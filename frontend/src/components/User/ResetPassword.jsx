@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components'
 import { clearErrors, Resetuserpass } from '../../redux/UserRed/Actions';
 import Loader from '../../utils/Loader';
-import arrow from '../../assets/imgs/icons8-up-arrow-96.png';
+import arrow from '../../assets/icons8-up-arrow-96.png';
 
 const ResetPasswordForm = styled.div`
     width: 100vw;

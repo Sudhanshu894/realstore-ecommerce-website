@@ -8,9 +8,9 @@ import Loader from '../utils/Loader'
 import ReviewsContainer from '../components/Reviews/ReviewsContainer'
 import Carousel from 'react-material-ui-carousel'
 import { Rating } from '@material-ui/lab'
-import wrong from '../assets/imgs/wrong.svg';
-import right from '../assets/imgs/right.svg';
-import arrow from '../assets/imgs/arrow.svg';
+import wrong from '../assets/wrong.svg';
+import right from '../assets/right.svg';
+import arrow from '../assets/arrow.svg';
 import { Addtocart } from '../redux/CartRed/Actions'
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@material-ui/core'
 import { NEW_REVIEW_REQUEST } from '../redux/ProductRed/Actiontypes'
