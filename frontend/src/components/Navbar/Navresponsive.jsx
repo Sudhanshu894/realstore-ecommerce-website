@@ -68,7 +68,7 @@ function Navresponsive({ isMobile, setOpen, open }) {
             <div className="rnavtop">
                 <div className="nav-1">
                     <div className="rlogo" onClick={() => { navigate('/') }}>
-                        <div>M</div>
+                        <div>R</div>
                     </div>
                     {open.search ? (<div onClick={() => setOpen({ cart: false, search: false, menu: false })} style={{ backgroundColor: '#F2F2F2', transform: 'rotate(180deg)' }} className="rsearchbtn">
                         <img src={cross} alt="" />
