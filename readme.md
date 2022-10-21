@@ -35,7 +35,7 @@
 
 ## Deployment
 
-[RealStore - Ecommerce Deployed Link](https://samplelink.com)
+[RealStore - Ecommerce Deployed Link](https://realstore-ecommerce.herokuapp.com/)
 
 
 ## Run Locally
