@@ -1,9 +1,10 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import carticon from '../../assets/bag.svg'
 import CartItem from '../Cart/CartItem';
+import { Removefromcart } from '../../redux/CartRed/Actions'
 
 const OpenCartStyles = styled.div`
      width: 100%;
@@ -69,7 +70,20 @@ const OpenCartStyles = styled.div`
 function CartOpen({ isAuth, HandleSideMenu }) {
     const navigate = useNavigate();
 
+    const dispatch = useDispatch();
     const { cartItems } = useSelector(state => state.cart);
+    const [total, setTotal] = useState(cartItems.reduce((acc, curr) => {
+        return acc + curr.price;
+    }, 0) || 0);
+    const [length, setLength] = useState(cartItems.reduce((acc, curr) => {
+        return acc + curr.quantity;
+    }, 0) || 0);
+
+    const DeleteCartItem = (el) => {
+        setTotal((prev) => prev - el.price * el.quantity);
+        setLength((prev) => prev - el.quantity)
+        dispatch(Removefromcart(el.product));
+    }
     return (
         <OpenCartStyles>
             <div className='copen'>
@@ -79,7 +93,7 @@ function CartOpen({ isAuth, HandleSideMenu }) {
                 }}>login</span> to use Cart</p>}
                 {cartItems?.length > 0 ? (<div className='mcartopen'>
                     {cartItems.map((item) => {
-                        return <CartItem item={item} need={true} />
+                        return <CartItem key={item.product} item={item} setTotal={setTotal} length={setLength} DeleteCart={DeleteCartItem} need={true} />
                     })}
                 </div>) : (<div className="cartitems">
                     <p>Cart is empty</p>

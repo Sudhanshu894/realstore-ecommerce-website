@@ -132,7 +132,7 @@ const CartPageStyles = styled.div`
     @media (min-width: 768px) and (max-width: 990px) {
         .wrapper{
             width: 90%;
-            grid-template-columns: 1fr 0.8fr;
+            grid-template-columns: 1fr;
             
             & > div{
                 .cart-items{
