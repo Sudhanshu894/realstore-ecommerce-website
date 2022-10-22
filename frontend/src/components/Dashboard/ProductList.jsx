@@ -386,7 +386,7 @@ function AdminProductList({ user }) {
                                 }}>Product ID - {prod?._id}</p>
                                 <div>
                                     <div className="show">
-                                        <img src={prod?.image[0]?.url === "sample_img" || "" ? { noimg } : prod?.image[0]?.url} alt="" />
+                                        <img src={prod?.images[0]?.url === "sample_img" || "" ? { noimg } : prod?.images[0]?.url} alt="" />
                                         <div className="info">
                                             <p>{prod?.name}</p>
                                             <Rating value={prod?.ratings} precision={0.5} size={'small'} readOnly />
