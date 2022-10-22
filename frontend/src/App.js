@@ -117,7 +117,7 @@ function App() {
         <Header open={open} setOpen={setOpen} isMobile={isMobile} isAuth={isAuthenticated} user={user} HandleLogout={HandleLogout} />
 
         {isMobile && <div className='slide-open' style={{ right: open.search && '0px' || open.cart && '0px' || open.menu && '0px' }} >
-          {open.search && <SearchOpen />}
+          {open.search && <SearchOpen HandleSideMenu={HandleSideMenu} />}
           {open.cart && <CartOpen isAuth={isAuthenticated} HandleSideMenu={HandleSideMenu} />}
           {open.menu && <MenuOpen isAuth={isAuthenticated} user={user} setOpen={setOpen} HandleLogout={HandleLogout} HandleSideMenu={HandleSideMenu} />}
         </div>}

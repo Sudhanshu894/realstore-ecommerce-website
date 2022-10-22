@@ -155,6 +155,13 @@ const ProductsPageStyles = styled.div`
             padding-bottom: 1rem;
             border-bottom: 0.8px solid #BEBEBE;
         }
+        h1{
+            width: fit-content;
+            font-size: 1.6rem;
+            font-family: 'Poppins',sans-serif;
+            font-weight: 500;
+            margin: 2rem auto;
+        }
         .Prod-grid{
             width: 100%;
             margin: 1.5rem 0;
@@ -351,11 +358,11 @@ function ProductsPage() {
                     </div>
                     <div className="prod-wrapper">
                         <h2>PRODUCTS</h2>
-                        <div className="Prod-grid">
+                        {products.length === 0 ? <h1>No Results Found !</h1> : <div className="Prod-grid">
                             {products && products.map((product) => {
                                 return <Product key={product._id} product={product} button={"VIEW DETAILS"} />
                             })}
-                        </div>
+                        </div>}
                     </div>
                 </ProductsPageStyles>
                 {resultPerPage < productsCount && <div className='Pagination-wrapper'>

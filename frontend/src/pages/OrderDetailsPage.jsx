@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components'
 import { clearErrors, getOrderDetails } from '../redux/OrderRed/Actions';
 import Loader from '../utils/Loader';
+import noimg from '../assets/no_image.jpg'
 
 const CheckoutStyles = styled.div`
     width: 1230px;
@@ -317,7 +318,7 @@ function OrderDetailsPage() {
                                 {order?.orderItems && order.orderItems?.map((item) => {
                                     return <div className="item">
                                         <div className="display-item">
-                                            <img style={{ objectFit: 'contain' }} src={item.image === "sample_img" ? "https://wedevelopment.in/wp-content/uploads/2019/08/no_image_png_934948.jpg" : item.image} alt="" />
+                                            <img style={{ objectFit: 'contain' }} src={item.image === "sample_img" || "" ? { noimg } : item.image} alt="" />
                                             <div>
                                                 <p>{item.name}</p>
                                             </div>

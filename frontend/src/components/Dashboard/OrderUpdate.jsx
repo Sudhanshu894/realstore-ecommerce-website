@@ -8,6 +8,7 @@ import Loader from '../../utils/Loader';
 import SideBar from './Sidebar';
 import { Button } from '@material-ui/core'
 import { UPDATE_ORDER_RESET } from '../../redux/OrderRed/ActioinTypes';
+import noimg from "../../assets/no_image.jpg";
 
 const CheckoutStyles = styled.div`
     width: 100%;
@@ -410,7 +411,7 @@ function AdminOrderUpdate({ user }) {
                                 {order?.orderItems && order.orderItems?.map((item) => {
                                     return <div className="item">
                                         <div className="display-item">
-                                            <img src={item.image === "sample_img" ? "https://wedevelopment.in/wp-content/uploads/2019/08/no_image_png_934948.jpg" : item.image} alt="" />
+                                            <img src={item.image === "sample_img" || "" ? { noimg } : item.image} alt="" />
                                             <div>
                                                 <p>{item.name}</p>
                                                 {/* <span>{item.category}</span> */}

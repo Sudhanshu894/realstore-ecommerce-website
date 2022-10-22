@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useAlert } from 'react-alert'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import search from '../../assets/search.svg'
+import noimg from '../../assets/no_image.jpg';
 
 const OpenSearchStyles = styled.div`
     width: 100%;
@@ -111,7 +114,33 @@ const OpenSearchStyles = styled.div`
     }
 `
 
-function SearchOpen() {
+function SearchOpen({ HandleSideMenu }) {
+    const alert = useAlert();
+
+    const navigate = useNavigate();
+
+    const [keyword, setKeyword] = useState("");
+    const eventHandle = () => {
+        if (keyword.length > 0) {
+            if (keyword.trim()) {
+                navigate(`/products/${keyword}`)
+            } else {
+                navigate('/products');
+            }
+        }
+        HandleSideMenu();
+    }
+    const searchHandler = (e) => {
+        if (e.key === 'Enter') {
+            if (keyword.length > 1) {
+                eventHandle();
+                HandleSideMenu();
+            } else {
+                alert.error("No results found for the keyword Entered")
+            }
+        }
+    }
+
     return (
         <OpenSearchStyles>
             <div className="sopen">
@@ -119,8 +148,8 @@ function SearchOpen() {
                     SEARCH
                 </h3>
                 <div className="sinput">
-                    <input type="text" placeholder='Search our catalog' />
-                    <img src={search} alt="" />
+                    <input type="text" placeholder='Search our catalog' onChange={(e) => setKeyword(e.target.value)} onKeyUp={(e) => searchHandler(e)} />
+                    <img src={search} alt="" onClick={eventHandle} />
                 </div>
                 <div className="spara">
                     <p>You can try some popular tags here:</p>
@@ -128,16 +157,7 @@ function SearchOpen() {
                 </div>
 
                 <div className="sgallery">
-                    <p>Featured products:</p>
-                    <div className="sgrid">
-                        <img src="http://roythemes.com/demo/modez/_ori/24-cart_default/faded-short-sleeves-tshirt.jpg" alt="" />
-                        <img src="http://roythemes.com/demo/modez/_ori/24-cart_default/faded-short-sleeves-tshirt.jpg" alt="" />
-                        <img src="http://roythemes.com/demo/modez/_ori/24-cart_default/faded-short-sleeves-tshirt.jpg" alt="" />
-                        <img src="http://roythemes.com/demo/modez/_ori/24-cart_default/faded-short-sleeves-tshirt.jpg" alt="" />
-                        <img src="http://roythemes.com/demo/modez/_ori/24-cart_default/faded-short-sleeves-tshirt.jpg" alt="" />
-                        <img src="http://roythemes.com/demo/modez/_ori/24-cart_default/faded-short-sleeves-tshirt.jpg" alt="" />
-                        <img style={{ gridColumn: 'span 3' }} src="http://roythemes.com/demo/modez/_ori/24-cart_default/faded-short-sleeves-tshirt.jpg" alt="" />
-                    </div>
+
                 </div>
             </div>
         </OpenSearchStyles>

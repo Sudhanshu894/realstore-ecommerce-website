@@ -11,7 +11,7 @@ function Header({ setOpen, open, isMobile, isAuth, user, HandleLogout }) {
         <>
             {isMobile ? (<><Navresponsive setOpen={setOpen} open={open} isMobile={isMobile} /></>) : (<><NavbarTop isAuth={isAuth} user={user} HandleLogout={HandleLogout} />
                 <NavbarMid isAuth={isAuth} user={user} />
-                <NavbarMain /></>)}
+                <NavbarMain isAuth={isAuth} /></>)}
         </>
     )
 }

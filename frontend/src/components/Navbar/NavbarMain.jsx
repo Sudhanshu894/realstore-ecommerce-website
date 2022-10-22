@@ -57,7 +57,7 @@ const NavMainStyles = styled.div`
     }
 `
 
-function NavbarMain() {
+function NavbarMain({ isAuth }) {
     const navigate = useNavigate();
     let navClasses = []
     const [scrolled, setScrolled] = useState(false);
@@ -82,6 +82,8 @@ function NavbarMain() {
                     <li><Link to='/'><img src={homeicon} alt="" /></Link></li>
                     <li><Link to='/'>HOME</Link></li>
                     <li><Link to='/products'>PRODUCT</Link></li>
+                    {isAuth && <li><Link to='/orders/profile'>ORDERS</Link></li>}
+
                     <li><Link to='/about'>ABOUT US</Link></li>
                     <li><Link to='/contact'>CONTACT US</Link></li>
                 </ul>

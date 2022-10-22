@@ -15,6 +15,7 @@ import StorageIcon from "@material-ui/icons/Storage";
 import SpellcheckIcon from "@material-ui/icons/Spellcheck";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import { NEW_PRODUCT_RESET, DELETE_PRODUCT_RESET } from '../../redux/ProductRed/Actiontypes';
+import noimg from '../../assets/no_image.jpg';
 
 const DashBoardStyles = styled.div`
     width: 80%;
@@ -385,7 +386,7 @@ function AdminProductList({ user }) {
                                 }}>Product ID - {prod?._id}</p>
                                 <div>
                                     <div className="show">
-                                        <img src={prod?.images[0]?.url} alt="" />
+                                        <img src={prod?.image[0]?.url === "sample_img" || "" ? { noimg } : prod?.image[0]?.url} alt="" />
                                         <div className="info">
                                             <p>{prod?.name}</p>
                                             <Rating value={prod?.ratings} precision={0.5} size={'small'} readOnly />

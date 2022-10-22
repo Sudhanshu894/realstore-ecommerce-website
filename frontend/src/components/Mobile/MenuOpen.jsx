@@ -154,6 +154,9 @@ function MenuOpen({ isAuth, user, setOpen, HandleLogout, HandleSideMenu }) {
                     <div>
                         <p onClick={HandleSideMenu}><Link to='/cart'>CART</Link></p>
                     </div>
+                    {isAuth === true && <div>
+                        <p onClick={HandleSideMenu}><Link to='/orders/profile'>ORDERS</Link></p>
+                    </div>}
                     <div>
                         <p onClick={HandleSideMenu}><Link to='/about'>ABOUT US</Link></p>
                     </div>
