@@ -288,7 +288,7 @@ function OrderDetailsPage() {
             dispatch(clearErrors());
         }
         dispatch(getOrderDetails(id));
-    }, [dispatch, alert, error])
+    }, [dispatch, alert, error, id])
     return (
         <>
             {loading ? <Loader /> : <CheckoutStyles>
@@ -298,18 +298,18 @@ function OrderDetailsPage() {
                         <div className='confirm-shipping-info'>
                             <h3>Shipping Info</h3>
                             <div>
-                                <p>Name: <span>{order.user?.name}</span></p>
-                                <p>email: <span>{order.user?.email}</span></p>
+                                <p>Name: <span>{order?.user?.name}</span></p>
+                                <p>email: <span>{order?.user?.email}</span></p>
                                 <p>Phone No: <span>{shippingInfo.mobileNo}</span></p>
-                                <p>Address: <span>{order.shippingInfo?.address}</span></p>
+                                <p>Address: <span>{order?.shippingInfo?.address}</span></p>
                             </div>
                         </div>
                         <div className='confirm-shipping-info'>
                             <h3>Payment Info</h3>
                             <div>
-                                <p>Amount Paid: <span>₹{order.totalPrice}</span></p>
+                                <p>Amount Paid: <span>₹{order?.totalPrice}</span></p>
                                 <p>Payment date: <span>{String(order?.paidAt).substring(0, 10)}</span></p>
-                                <p>Order Status: <span>{order.orderStatus}</span></p>
+                                <p>Order Status: <span>{order?.orderStatus}</span></p>
                             </div>
                         </div>
                         <div className="cart-overview">
@@ -339,7 +339,9 @@ function OrderDetailsPage() {
                             </div>
                         </div>
                     </div>
-                    <button className='submit'>B</button>
+                    <button className='submit' onClick={() => {
+                        navigate('/orders/profile')
+                    }}>BACK TO ORDERS</button>
                 </div>
             </CheckoutStyles>}
         </>

@@ -104,10 +104,8 @@ function OrdersPage() {
             alert.error(error);
             dispatch(clearErrors());
         }
-
         dispatch(myOrders());
-        console.log(orders);
-    }, [dispatch, alert, error]);
+    }, [dispatch, alert]);
 
     return (
         <OrderPageStyles>

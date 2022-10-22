@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import CheckoutStepper from './CheckoutStepper';
+import noimg from '../../assets/no_image.jpg'
 
 
 const CheckoutStyles = styled.div`
@@ -398,7 +399,7 @@ function ConfirmOrder() {
                                 {cartItems && cartItems.map((item) => {
                                     return <div className="item">
                                         <div className="display-item">
-                                            <img src="http://roythemes.com/demo/modez/_ori/24-home_default/faded-short-sleeves-tshirt.jpg" alt="" />
+                                            <img src={item.image === "" ? noimg : item.image} alt="" />
                                             <div>
                                                 <p>{item.name}</p>
                                                 <span>Clothings</span>

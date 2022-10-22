@@ -4,6 +4,7 @@ import arrow from '../../assets/arrow.svg';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useDispatch } from 'react-redux';
 import { Addtocart } from '../../redux/CartRed/Actions';
+import noimg from '../../assets/no_image.jpg';
 
 const CartItemStyles = styled.div`
     width: 100%;
@@ -266,7 +267,7 @@ function CartItem({ item, setTotal, length, DeleteCart }) {
     return (
         <CartItemStyles>
             <div className="display-item">
-                <img src="http://roythemes.com/demo/modez/_ori/24-home_default/faded-short-sleeves-tshirt.jpg" alt="" />
+                <img src={item.image == "" ? noimg : item.image} alt="" />
                 <div>
                     <p>{item.name}</p>
                     <span>Clothings</span>

@@ -188,7 +188,7 @@ function Signup({ setIsLogin }) {
     const [confirmpassword, setConfirmPassword] = useState("");
     const [name, setName] = useState("");
     const [avatar, setAvatar] = useState();
-    const { error, loading, isAuthenticated } = useSelector(state => state.user);
+    const { error, loading, isRegistered, isAuthenticated } = useSelector(state => state.user);
     const dispatch = useDispatch();
 
     const HandleAvatarUpload = (e) => {
@@ -226,7 +226,12 @@ function Signup({ setIsLogin }) {
         if (isAuthenticated) {
             navigate('/account');
         }
-    }, [dispatch, error, alert, navigate, isAuthenticated]);
+
+        if (isRegistered) {
+            alert.success("User Registered Successfully");
+            navigate('/login')
+        }
+    }, [dispatch, error, alert, navigate, isAuthenticated, isRegistered]);
     return (
         <>
             {loading ? (<Loader />) : (<SignupStyles>

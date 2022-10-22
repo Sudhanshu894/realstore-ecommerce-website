@@ -11,13 +11,19 @@ export const userReducer = (state = { user: {} }, action) => {
                 isAuthenticated: false,
             }
         case LOGIN_SUCCESS:
-        case USER_REGISTER_SUCCESS:
         case LOAD_USER_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 isAuthenticated: true,
                 user: action.payload,
+            }
+        case USER_REGISTER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                user: action.payload,
+                isRegistered: true,
             }
         case LOGOUT_SUCCESS:
             return {
@@ -26,11 +32,18 @@ export const userReducer = (state = { user: {} }, action) => {
                 isAuthenticated: false,
             }
         case LOGIN_FAIL:
-        case USER_REGISTER_FAIL:
             return {
                 ...state,
                 loading: false,
                 isAuthenticated: false,
+                error: action.payload,
+                user: null,
+            }
+        case USER_REGISTER_FAIL:
+            return {
+                ...state,
+                loading: false,
+                isRegistered: false,
                 error: action.payload,
                 user: null,
             }
