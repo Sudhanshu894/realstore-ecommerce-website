@@ -1,0 +1,35 @@
+{
+  "files": {
+    "main.js": "/static/js/main.654509b8.js",
+    "static/media/profile.png": "/static/media/profile.15a9773e8f6058a4301a.png",
+    "static/media/main_banner.jpg": "/static/media/main_banner.696f5ed63dac1a4dcb38.jpg",
+    "static/media/banner_top1.jpeg": "/static/media/banner_top1.5adb8290c53835598a4a.jpeg",
+    "static/media/no_image.jpg": "/static/media/no_image.48819e639d4505540482.jpg",
+    "static/media/banner_top3.jpeg": "/static/media/banner_top3.4c8fb2b4af9137df0786.jpeg",
+    "static/media/3-brand_default.jpg": "/static/media/3-brand_default.34974afcb8ccc270e6d7.jpg",
+    "static/media/banner_top2.jpeg": "/static/media/banner_top2.26626706ae7192539422.jpeg",
+    "static/media/1-brand_default.jpg": "/static/media/1-brand_default.511cf05cc0a6e87e2311.jpg",
+    "static/media/5-brand_default.jpg": "/static/media/5-brand_default.be1281920fc26792d92e.jpg",
+    "static/media/instagram.svg": "/static/media/instagram.945fd61c31bb0dcd7254eabdfd770679.svg",
+    "static/media/bag.svg": "/static/media/bag.90421ff2c4e4c04b9d76511f301e4345.svg",
+    "index.html": "/index.html",
+    "static/media/twitter.svg": "/static/media/twitter.f54089b17d71cf685a39ba029cf4d1c9.svg",
+    "static/media/github.svg": "/static/media/github.95ad9234e1509d5c93ffe0a9f7eb217a.svg",
+    "static/media/home.svg": "/static/media/home.7161bc1ffa32dae3a2969460032c122d.svg",
+    "static/media/pinterest.svg": "/static/media/pinterest.caa5d463eb06163a78b9cfe36f4b77a5.svg",
+    "static/media/wrong.svg": "/static/media/wrong.ae997f46c79f03ab8734aa01b40bcc06.svg",
+    "static/media/facebook.svg": "/static/media/facebook.9ff60f771b4dd385bfe3bc2c59c90040.svg",
+    "static/media/search.svg": "/static/media/search.fda5e1692bf752bef5a016ce00630bdd.svg",
+    "static/media/youtube.svg": "/static/media/youtube.8c6e6af25497a4ee0387797e5a0b895a.svg",
+    "static/media/linkedin.svg": "/static/media/linkedin.2693e28d9c497748b5d04b9979a8977a.svg",
+    "static/media/x.svg": "/static/media/x.055a1de205385c17d3ae04d26c0a2cd4.svg",
+    "static/media/user.svg": "/static/media/user.2b054d45bfb800306bc32a9447ade975.svg",
+    "static/media/menu.svg": "/static/media/menu.89859c0500dd534bbedff0b863b992e4.svg",
+    "static/media/arrow.svg": "/static/media/arrow.6c7b522c7f66f0bae204be916dec0468.svg",
+    "static/media/right.svg": "/static/media/right.a6c85043289f7e52b5036ed4426fbbf4.svg",
+    "main.654509b8.js.map": "/static/js/main.654509b8.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.654509b8.js"
+  ]
+}
