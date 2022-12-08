@@ -35,7 +35,7 @@
 
 ## Deployment
 
-[RealStore - Ecommerce Deployed Link](https://realstore-ecommerce.herokuapp.com/)
+[RealStore - Ecommerce Deployed Link](https://realstore-mern-ecommerce.cyclic.app/)
 
 
 ## Run Locally
